@@ -336,20 +336,20 @@
   <p class="subtitle">前半のJupyterハンズオンをご自身のPCで進めるための、環境構築手順</p>
 
   <div class="lede">
-    <p>Udemyラボ（Personal Plan / Business Pro限定）を利用する方は、このレクチャーの作業は<strong>不要です</strong>。各ハンズオンのラボにはノートブック・データ・ライブラリが配置済みで、レクチャーを開くだけですぐに使えます。</p>
-    <p>このレクチャーを終えると、次から始まるハンズオンをすぐに動かせる状態になります。ハンズオンやラボを進める中で行き詰まったときも、ここに戻ってきてください。</p>
+    <p>Udemyラボ（Personal Plan / Business Pro限定）を利用する方は、このレクチャーの作業は<strong>不要です</strong>。<br>各ハンズオンのラボにはノートブック・データ・ライブラリが配置済みで、レクチャーを開くだけですぐに使えます。</p>
+    <p>このレクチャーを終えると、次から始まるハンズオンをすぐに動かせる状態になります。<br>ハンズオンやラボを進める中で行き詰まったときも、ここに戻ってきてください。</p>
   </div>
 
   <div class="toolbox">
     <div class="icon">🧰</div>
     <div class="body">
-      ここで整えるのは、いわば<strong>「道具箱」</strong>です。作業用のフォルダを1つ作り、そこにPythonの仮想環境と、コース全体で使うライブラリをまとめてインストールします。<strong>一度この環境を作ってしまえば</strong>、以降のハンズオンでは、レクチャーに添付されているノートブックをこのフォルダにダウンロードして開くだけで進められます（<code class="inline">helpdesk-ai</code> リポジトリ全体をダウンロードする必要はありません）。
+      ここで整えるのは、いわば<strong>「道具箱」</strong>です。<br>作業用のフォルダを1つ作り、そこにPythonの仮想環境と、コース全体で使うライブラリをまとめてインストールします。<br><strong>一度この環境を作ってしまえば</strong>、以降のハンズオンでは、レクチャーに添付されているノートブックをこのフォルダにダウンロードして開くだけで進められます（<code class="inline">helpdesk-ai</code> リポジトリ全体をダウンロードする必要はありません）。
     </div>
   </div>
 
   <section class="block">
     <h2>事前準備：ターミナルと Python の確認</h2>
-    <p>このコースでは <strong>Mac（macOS）／ Windows</strong> の両方に対応した手順を用意しています。コマンドが異なる箇所は、その都度両方を併記しますので、ご自身の環境の方を実行してください。</p>
+    <p>このコースでは <strong>Mac（macOS）／ Windows</strong> の両方に対応した手順を用意しています。<br>コマンドが異なる箇所は、その都度両方を併記しますので、ご自身の環境の方を実行してください。</p>
 
     <h3 class="label">ターミナル（コマンドを打つ画面）の開き方</h3>
     <div class="tbl-wrap">
@@ -381,24 +381,24 @@
       3. ダウンロードしたインストーラーを実行してインストールする
     </p>
 
-    <div class="warn"><span class="mark">⚠️</span><span><strong>Windowsの注意点：</strong>インストーラー最初の画面で「<strong>Add python.exe to PATH</strong>」に必ずチェックを入れてください（チェックし忘れると <code class="inline">python</code> コマンドが見つかりません）。チェックせずに進めてしまった場合や、<code class="inline">python</code> と打つとMicrosoft Storeが開いてしまう場合は、Pythonを入れ直してこのチェックを付けるのが確実です。</span></div>
-    <div class="warn"><span class="mark">⚠️</span><span><strong>Macの注意点：</strong>新しいmacOSにはPythonが標準で入っていないことがあります（<code class="inline">python3 --version</code> が反応しない場合）。その場合も上記の手順でインストールすればOKです。インストール後はターミナルを開き直してから再確認してください。</span></div>
+    <div class="warn"><span class="mark">⚠️</span><span><strong>Windowsの注意点：</strong>インストーラー最初の画面で「<strong>Add python.exe to PATH</strong>」に必ずチェックを入れてください（チェックし忘れると <code class="inline">python</code> コマンドが見つかりません）。<br>チェックせずに進めてしまった場合や、<code class="inline">python</code> と打つとMicrosoft Storeが開いてしまう場合は、Pythonを入れ直してこのチェックを付けるのが確実です。</span></div>
+    <div class="warn"><span class="mark">⚠️</span><span><strong>Macの注意点：</strong>新しいmacOSにはPythonが標準で入っていないことがあります（<code class="inline">python3 --version</code> が反応しない場合）。<br>その場合も上記の手順でインストールすればOKです。インストール後はターミナルを開き直してから再確認してください。</span></div>
   </section>
 
   <section class="block step">
     <h2><span class="step-num">1</span>作業用フォルダの作成</h2>
-    <p>前半のハンズオンで使う専用フォルダを1つ作ります。このフォルダに、以降ダウンロードするノートブックをすべてまとめていきます。</p>
+    <p>前半のハンズオンで使う専用フォルダを1つ作ります。<br>このフォルダに、以降ダウンロードするノートブックをすべてまとめていきます。</p>
     <div class="term solo full-block">
       <div class="term-head"><span class="swatch"></span>Mac / Windows 共通</div>
       <pre>mkdir helpdesk-ai-lessons
 cd helpdesk-ai-lessons</pre>
     </div>
-    <div class="tip"><span class="mark">💡</span><span>フォルダ名は一例です。お好きな名前で構いませんが、GitHubリポジトリ名の <code class="inline">helpdesk-ai</code>（次のレクチャーで紹介）とは紛らわしいので別の名前にしておくことをおすすめします。</span></div>
+    <div class="tip"><span class="mark">💡</span><span>フォルダ名は一例です。<br>お好きな名前で構いませんが、GitHubリポジトリ名の <code class="inline">helpdesk-ai</code>（次のレクチャーで紹介）とは紛らわしいので別の名前にしておくことをおすすめします。</span></div>
   </section>
 
   <section class="block step">
     <h2><span class="step-num">2</span>仮想環境の作成と有効化</h2>
-    <p>このフォルダ専用のライブラリ置き場（仮想環境）を作ります。仮想環境を使うと、他のプロジェクトとライブラリが混ざりません。</p>
+    <p>このフォルダ専用のライブラリ置き場（仮想環境）を作ります。<br>仮想環境を使うと、他のプロジェクトとライブラリが混ざりません。</p>
 
     <h3 class="label">仮想環境を作成</h3>
     <div class="os-grid">
@@ -416,7 +416,7 @@ cd helpdesk-ai-lessons</pre>
 
   <section class="block step">
     <h2><span class="step-num">3</span>コース全体で使うライブラリの一括インストール</h2>
-    <p>このコースの前半で使うライブラリを、ここでまとめてインストールします。ここで入れておけば、この先の各ハンズオンで追加インストールは基本的に不要です。</p>
+    <p>このコースの前半で使うライブラリを、ここでまとめてインストールします。<br>ここで入れておけば、この先の各ハンズオンで追加インストールは基本的に不要です。</p>
     <div class="term solo full-block">
       <div class="term-head"><span class="swatch"></span>Mac / Windows 共通</div>
       <pre>pip install jupyterlab ipykernel openai langchain-openai langgraph faiss-cpu numpy</pre>
@@ -444,13 +444,13 @@ cd helpdesk-ai-lessons</pre>
       <div class="term-head"><span class="swatch"></span>Mac / Windows 共通</div>
       <pre>jupyter lab</pre>
     </div>
-    <p>ブラウザでJupyter Labのランチャー画面が開けば、環境のセットアップは完了です。確認できたら、いったんタブを閉じて構いません。</p>
-    <div class="tip"><span class="mark">➡️</span><span><strong>次のハンズオンからの進め方：</strong>各ハンズオンのレクチャーには、そのレクチャー専用のノートブック（<code class="inline">.ipynb</code>）が添付ファイルとして用意されています。ダウンロードした添付ファイルをこの <code class="inline">helpdesk-ai-lessons</code> フォルダに展開し、Jupyter Labの画面から開くだけで進められます（データファイルが必要なハンズオンでは、ノートブックと一緒に <code class="inline">data</code> フォルダも展開されます）。</span></div>
+    <p>ブラウザでJupyter Labのランチャー画面が開けば、環境のセットアップは完了です。<br>確認できたら、いったんタブを閉じて構いません。</p>
+    <div class="tip"><span class="mark">➡️</span><span><strong>次のハンズオンからの進め方：</strong>各ハンズオンのレクチャーには、そのレクチャー専用のノートブック（<code class="inline">.ipynb</code>）が添付ファイルとして用意されています。<br>ダウンロードした添付ファイルをこの <code class="inline">helpdesk-ai-lessons</code> フォルダに展開し、Jupyter Labの画面から開くだけで進められます（データファイルが必要なハンズオンでは、ノートブックと一緒に <code class="inline">data</code> フォルダも展開されます）。</span></div>
   </section>
 
   <section class="block">
     <h2>OpenAI APIキーの設定</h2>
-    <p>各ハンズオンのノートブックを実行すると、最初にAPIキーの入力を求めるプロンプトが表示されます。入力した値は画面に表示されず、ノートブックにも保存されません。APIキーの取得方法はレクチャー2-3で案内します。</p>
+    <p>各ハンズオンのノートブックを実行すると、最初にAPIキーの入力を求めるプロンプトが表示されます。<br>入力した値は画面に表示されず、ノートブックにも保存されません。<br>APIキーの取得方法はレクチャー2-3で案内します。</p>
     <div class="term solo full-block">
       <div class="term-head"><span class="swatch"></span>ノートブック実行時のプロンプト</div>
       <pre>OpenAI API キーを入力してください: ＿＿＿</pre>
@@ -472,8 +472,8 @@ cd helpdesk-ai-lessons</pre>
         <pre>$env:OPENAI_API_KEY="sk-..."</pre>
       </div>
     </div>
-    <div class="tip"><span class="mark">💡</span><span>この方法で設定した環境変数は、そのターミナルを閉じると消えます。ターミナルを開き直したら再度設定するか、ノートブック実行時のプロンプトに直接入力してください。</span></div>
-    <div class="warn"><span class="mark">⚠️</span><span>APIキーをソースコードに直接書き込まないでください。誤ってGitHubに公開してしまうリスクがあります。</span></div>
+    <div class="tip"><span class="mark">💡</span><span>この方法で設定した環境変数は、そのターミナルを閉じると消えます。<br>ターミナルを開き直したら再度設定するか、ノートブック実行時のプロンプトに直接入力してください。</span></div>
+    <div class="warn"><span class="mark">⚠️</span><span>APIキーをソースコードに直接書き込まないでください。<br>誤ってGitHubに公開してしまうリスクがあります。</span></div>
   </section>
 
   <section class="block">
@@ -481,17 +481,17 @@ cd helpdesk-ai-lessons</pre>
 
     <details class="faq-item">
       <summary>python3 コマンドが見つからないと言われる（主に Windows）</summary>
-      <div class="a">Windows では通常 <code class="inline">python</code>（3なし）が正しいコマンドです。<code class="inline">python --version</code> で確認してください。それでも見つからない場合は、Python インストール時に「Add python.exe to PATH」にチェックが入っていない可能性があります。<code class="inline">py --version</code> を試すか、Pythonを入れ直してください（Python 3.10以上を推奨）。</div>
+      <div class="a">Windows では通常 <code class="inline">python</code>（3なし）が正しいコマンドです。<br><code class="inline">python --version</code> で確認してください。<br>それでも見つからない場合は、Python インストール時に「Add python.exe to PATH」にチェックが入っていない可能性があります。<br><code class="inline">py --version</code> を試すか、Pythonを入れ直してください（Python 3.10以上を推奨）。</div>
     </details>
 
     <details class="faq-item">
       <summary>Windows で .venv\Scripts\activate を実行するとエラーになる（PowerShell）</summary>
-      <div class="a">PowerShell のセキュリティ設定（実行ポリシー）でスクリプト実行がブロックされている場合があります。次のいずれかで解決できます。<br>・<strong>コマンドプロンプト（cmd）</strong> を使って <code class="inline">.venv\Scripts\activate</code> を実行する（最も簡単）。<br>・PowerShell を使い続けたい場合は、一度だけ次を実行して許可する：<code class="inline">Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>（確認を求められたら <code class="inline">Y</code>）。その後もう一度 activate を実行する。</div>
+      <div class="a">PowerShell のセキュリティ設定（実行ポリシー）でスクリプト実行がブロックされている場合があります。<br>次のいずれかで解決できます。<br>・<strong>コマンドプロンプト（cmd）</strong> を使って <code class="inline">.venv\Scripts\activate</code> を実行する（最も簡単）。<br>・PowerShell を使い続けたい場合は、一度だけ次を実行して許可する：<code class="inline">Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>（確認を求められたら <code class="inline">Y</code>）。<br>その後もう一度 activate を実行する。</div>
     </details>
 
     <details class="faq-item">
       <summary>pip install が失敗する / パッケージが見つからない</summary>
-      <div class="a">仮想環境の有効化を忘れていないか確認してください。プロンプトの先頭に <code class="inline">(.venv)</code> が表示されていれば有効化されています。表示されていない場合はステップ2の有効化コマンドをもう一度実行してください。</div>
+      <div class="a">仮想環境の有効化を忘れていないか確認してください。<br>プロンプトの先頭に <code class="inline">(.venv)</code> が表示されていれば有効化されています。<br>表示されていない場合はステップ2の有効化コマンドをもう一度実行してください。</div>
     </details>
 
     <details class="faq-item">
@@ -501,7 +501,7 @@ cd helpdesk-ai-lessons</pre>
 
     <details class="faq-item">
       <summary>ハンズオンのノートブックを開いたら、データファイルが見つからないエラーが出る</summary>
-      <div class="a">ノートブックと一緒に展開される <code class="inline">data</code> フォルダが、ノートブックと同じ階層に無いと発生します。添付ファイルをダウンロードしたときの <code class="inline">notebook/</code> ・<code class="inline">data/</code> の配置を崩さずに展開してください。</div>
+      <div class="a">ノートブックと一緒に展開される <code class="inline">data</code> フォルダが、ノートブックと同じ階層に無いと発生します。<br>添付ファイルをダウンロードしたときの <code class="inline">notebook/</code> ・<code class="inline">data/</code> の配置を崩さずに展開してください。</div>
     </details>
   </section>
 
