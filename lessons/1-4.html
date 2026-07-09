@@ -636,6 +636,28 @@ pip install jupyterlab ipykernel openai langchain-openai langgraph faiss-cpu num
           </div>
           <pre>OpenAI API キーを入力してください: ＿＿＿</pre>
         </div>
+        <p>
+          ターミナルで環境変数として設定しておくと、そのターミナルから起動したJupyter
+          Labでは、ノートブックを実行するたびに入力する必要がなくなります。
+        </p>
+        <div class="os-grid">
+          <div class="term mac">
+            <div class="term-head"><span class="swatch"></span>Mac / Linux</div>
+            <pre>export OPENAI_API_KEY="sk-..."</pre>
+          </div>
+          <div class="term win">
+            <div class="term-head">
+              <span class="swatch"></span>Windows（PowerShell）
+            </div>
+            <pre>$env:OPENAI_API_KEY="sk-..."</pre>
+          </div>
+        </div>
+        <div class="tip">
+          <span class="mark">💡</span
+          ><span
+            >この方法で設定した環境変数は、そのターミナルを閉じると消えます。<br />ターミナルを開き直したら再度設定するか、ノートブック実行時のプロンプトに直接入力してください。</span
+          >
+        </div>
         <div class="warn">
           <span class="mark">⚠️</span
           ><span
