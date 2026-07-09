@@ -384,60 +384,6 @@
         font-size: 0.85em;
       }
 
-      /* --- FAQ --- */
-      .faq-item {
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        background: var(--surface);
-        margin-bottom: 10px;
-        overflow: hidden;
-      }
-      .faq-item summary {
-        cursor: pointer;
-        list-style: none;
-        padding: 14px 18px;
-        font-weight: 700;
-        font-size: 15px;
-        color: var(--text);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .faq-item summary::-webkit-details-marker {
-        display: none;
-      }
-      .faq-item summary::before {
-        content: "";
-        width: 8px;
-        height: 8px;
-        border-right: 2px solid var(--accent);
-        border-bottom: 2px solid var(--accent);
-        transform: rotate(-45deg);
-        transition: transform 0.15s ease;
-        flex-shrink: 0;
-      }
-      .faq-item[open] summary::before {
-        transform: rotate(45deg);
-      }
-      .faq-item summary:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 2px;
-      }
-      .faq-item .a {
-        padding: 0 18px 16px 36px;
-        color: var(--text-muted);
-        font-size: 14.5px;
-        line-height: 1.75;
-      }
-      .faq-item .a code.inline {
-        font-size: 0.9em;
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .faq-item summary::before {
-          transition: none;
-        }
-      }
     </style>
   </head>
   <body>
@@ -628,7 +574,7 @@ pip install jupyterlab ipykernel openai langchain-openai langgraph faiss-cpu num
             </tr>
             <tr>
               <td><code class="inline">openai</code></td>
-              <td>OpenAI APIとの接続（生のAPI呼び出し）</td>
+              <td>OpenAI APIとの接続（直接のAPI呼び出し）</td>
             </tr>
             <tr>
               <td><code class="inline">langchain-openai</code></td>
@@ -682,7 +628,7 @@ pip install jupyterlab ipykernel openai langchain-openai langgraph faiss-cpu num
       <section class="block">
         <h2>OpenAI APIキーの設定</h2>
         <p>
-          各ハンズオンのノートブックを実行すると、最初にAPIキーの入力を求めるプロンプトが表示されます。<br />入力した値は画面に表示されず、ノートブックにも保存されません。<br />APIキーの取得方法はレクチャー2-3で案内します。
+          各ハンズオンのノートブックを実行すると、最初にAPIキーの入力を求めるプロンプトが表示されます。<br />入力した値は画面に表示されず、ノートブックにも保存されません。<br />APIキーの取得方法は後のレクチャーでご案内します。
         </p>
         <div class="term solo full-block">
           <div class="term-head">
@@ -690,118 +636,12 @@ pip install jupyterlab ipykernel openai langchain-openai langgraph faiss-cpu num
           </div>
           <pre>OpenAI API キーを入力してください: ＿＿＿</pre>
         </div>
-        <p>環境変数として事前に設定しておく場合は以下のようにします。</p>
-        <div class="os-grid">
-          <div class="term mac">
-            <div class="term-head"><span class="swatch"></span>Mac / Linux</div>
-            <pre>export OPENAI_API_KEY="sk-..."</pre>
-          </div>
-          <div class="term win">
-            <div class="term-head">
-              <span class="swatch"></span>Windows（コマンドプロンプト）
-            </div>
-            <pre>set OPENAI_API_KEY=sk-...</pre>
-          </div>
-        </div>
-        <div class="os-grid">
-          <div class="term win solo" style="grid-column: 1 / -1">
-            <div class="term-head">
-              <span class="swatch"></span>Windows（PowerShell）
-            </div>
-            <pre>$env:OPENAI_API_KEY="sk-..."</pre>
-          </div>
-        </div>
-        <div class="tip">
-          <span class="mark">💡</span
-          ><span
-            >この方法で設定した環境変数は、そのターミナルを閉じると消えます。<br />ターミナルを開き直したら再度設定するか、ノートブック実行時のプロンプトに直接入力してください。</span
-          >
-        </div>
         <div class="warn">
           <span class="mark">⚠️</span
           ><span
             >APIキーをソースコードに直接書き込まないでください。<br />誤ってGitHubに公開してしまうリスクがあります。</span
           >
         </div>
-      </section>
-
-      <section class="block">
-        <h2>よくある質問</h2>
-
-        <details class="faq-item">
-          <summary>
-            python3 コマンドが見つからないと言われる（主に Windows）
-          </summary>
-          <div class="a">
-            Windows では通常
-            <code class="inline">python</code
-            >（3なし）が正しいコマンドです。<br /><code class="inline"
-              >python --version</code
-            >
-            で確認してください。<br />それでも見つからない場合は、Pythonが正しくインストールされていないか、PATHが通っていない可能性があります。<br /><code
-              class="inline"
-              >py --version</code
-            >
-            を試すか、Pythonを入れ直してください（Python 3.10以上を推奨）。
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>
-            Windows で .venv\Scripts\activate
-            を実行するとエラーになる（PowerShell）
-          </summary>
-          <div class="a">
-            PowerShell
-            のセキュリティ設定（実行ポリシー）でスクリプト実行がブロックされている場合があります。<br />次のいずれかで解決できます。<br />・<strong
-              >コマンドプロンプト（cmd）</strong
-            >
-            を使って
-            <code class="inline">.venv\Scripts\activate</code>
-            を実行する（最も簡単）。<br />・PowerShell
-            を使い続けたい場合は、一度だけ次を実行して許可する：<code
-              class="inline"
-              >Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code
-            >（確認を求められたら
-            <code class="inline">Y</code>）。<br />その後もう一度 activate
-            を実行する。
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>pip install が失敗する / パッケージが見つからない</summary>
-          <div class="a">
-            仮想環境の有効化を忘れていないか確認してください。<br />プロンプトの先頭に
-            <code class="inline">(.venv)</code>
-            が表示されていれば有効化されています。<br />表示されていない場合はステップ2の有効化コマンドをもう一度実行してください。
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>Jupyter Labがブラウザで開かない</summary>
-          <div class="a">
-            ターミナルに表示されたURLを手動でブラウザに貼り付けてみてください（<code
-              class="inline"
-              >http://localhost:8888/...</code
-            >
-            のような形式）。
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>
-            ハンズオンのノートブックを開いたら、データファイルが見つからないエラーが出る
-          </summary>
-          <div class="a">
-            ノートブックと一緒に展開される
-            <code class="inline">data</code>
-            フォルダが、ノートブックと同じ階層に無いと発生します。<br />添付ファイルをダウンロードしたときの
-            <code class="inline">notebook/</code> ・<code class="inline"
-              >data/</code
-            >
-            の配置を崩さずに展開してください。
-          </div>
-        </details>
       </section>
     </div>
   </body>
