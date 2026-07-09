@@ -626,19 +626,114 @@ pip install jupyterlab ipykernel openai langchain-openai langgraph faiss-cpu num
         <div class="tip">
           <span class="mark">➡️</span
           ><span
-            ><strong>次のハンズオンからの進め方：</strong
-            >各ハンズオンのレクチャーには、そのレクチャー専用のノートブック（<code
-              class="inline"
-              >.ipynb</code
-            >）が添付ファイルとして用意されています。<br />ダウンロードした添付ファイルをこの
-            <code class="inline">handson</code>
-            フォルダに置くか、Jupyter Lab の画面からアップロードしてください。<br
-            />ファイルシステム上で直接フォルダに置いた場合は、Jupyter
-            Labの画面にすぐには表示されないことがあります。その場合はファイルブラウザの<strong>更新ボタン</strong>（🔄アイコン）を押すと表示されます。
-            Jupyter Labの画面から、置いたノートブック（<code class="inline"
-              >.ipynb</code
-            >ファイル）を開くだけで進められます（データファイルが必要なハンズオンでは、ノートブックと一緒に
-            <code class="inline">data</code> フォルダも配置します）。</span
+            >これでローカル環境の準備は完了です。<br />各ハンズオンで使うノートブックの入手・配置のしかたは、次の項目で説明します。</span
+          >
+        </div>
+      </section>
+
+      <section class="block step">
+        <h2><span class="step-num">5</span>ハンズオンの添付ファイルの使い方</h2>
+        <p>
+          各ハンズオンのレクチャーには、<strong>添付ファイルが2つ</strong>用意されています。<br />ノートブックとデータは、フォルダの構成ごと
+          <code class="inline">attachments.zip</code>
+          にまとめてあります。
+        </p>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>添付ファイル</th>
+                <th>中身と使い方</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code class="inline">attachments.zip</code></td>
+                <td>
+                  ノートブックとデータ一式。ダウンロードして<strong>展開し、作業用フォルダに置いて</strong>使います。
+                </td>
+              </tr>
+              <tr>
+                <td><code class="inline">commands.txt</code></td>
+                <td>
+                  そのレクチャーで実行するコマンドをまとめたテキストです。展開しなくてもそのまま開けます（zipの中にも同じものが入っています）。
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="label">zipファイルの展開のしかた</h3>
+        <div class="os-grid">
+          <div class="term mac">
+            <div class="term-head"><span class="swatch"></span>Mac</div>
+            <pre>zipファイルを<b>ダブルクリック</b>
+（同じ場所にフォルダが作られます）</pre>
+          </div>
+          <div class="term win">
+            <div class="term-head"><span class="swatch"></span>Windows</div>
+            <pre>zipファイルを<b>右クリック</b>
+→「<b>すべて展開</b>」を選ぶ</pre>
+          </div>
+        </div>
+        <div class="warn">
+          <span class="mark">⚠️</span
+          ><span
+            ><strong>Windowsでzipを開いただけの状態に注意：</strong
+            >zipファイルをダブルクリックすると中身が見えますが、これは<strong>まだ展開されていません</strong>。<br />必ず「すべて展開」を実行してから、中のファイルを使ってください。</span
+          >
+        </div>
+
+        <h3 class="label">展開したファイルの置き場所</h3>
+        <p>
+          展開してできた
+          <code class="inline">notebook</code> フォルダ（と、ハンズオンによっては
+          <code class="inline">data</code> フォルダ）を、<strong
+            >手順1で作った作業用フォルダの中にそのまま移動</strong
+          >します。<br />最終的に、次のような配置になります。
+        </p>
+        <div class="term solo full-block">
+          <div class="term-head">
+            <span class="swatch"></span>作業用フォルダ（handson）の中身
+          </div>
+          <pre>
+handson/
+├── .venv/                     ← 手順2で作った仮想環境
+├── notebook/
+│   └── handson01.ipynb        ← このノートブックを開く
+└── data/                      ← データを使うハンズオンのみ
+    ├── docs/
+    └── metadata.json</pre
+          >
+        </div>
+        <div class="warn">
+          <span class="mark">⚠️</span
+          ><span
+            >ノートブックは <code class="inline">notebook</code>
+            フォルダの中に置いたまま開いてください。<br />ノートブックは
+            <code class="inline">../data</code>
+            という相対パスでデータを読み込むため、<strong
+              >別の場所に移すとデータが見つからずエラーになります</strong
+            >。展開された配置のまま動かさないのが確実です。
+          </span>
+        </div>
+
+        <h3 class="label">ノートブックを開く</h3>
+        <p>
+          作業用フォルダで
+          <code class="inline">jupyter lab</code>
+          を起動し、画面左のファイルブラウザから
+          <code class="inline">notebook</code> フォルダを開いて、<code
+            class="inline"
+            >.ipynb</code
+          >
+          ファイルをクリックするだけです。
+        </p>
+        <div class="tip">
+          <span class="mark">💡</span
+          ><span
+            >Jupyter Labを起動したままファイルを置いた場合、画面にすぐ表示されないことがあります。<br />そのときはファイルブラウザの<strong>更新ボタン</strong>（🔄アイコン）を押してください。<br />ファイルを直接置く代わりに、Jupyter
+            Labの画面から<strong>アップロード</strong>することもできます。</span
           >
         </div>
       </section>
