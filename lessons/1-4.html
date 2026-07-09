@@ -383,7 +383,6 @@
       .next-note code.inline {
         font-size: 0.85em;
       }
-
     </style>
   </head>
   <body>
@@ -400,9 +399,6 @@
         <p>
           Udemyラボ（Personal Plan / Business
           Pro限定）を利用する方は、このレクチャーの作業は<strong>不要です</strong>。<br />各ハンズオンのラボにはノートブック・データ・ライブラリが配置済みで、レクチャーを開くだけですぐに使えます。
-        </p>
-        <p>
-          このレクチャーを終えると、次から始まるハンズオンをすぐに動かせる状態になります。<br />ハンズオンやラボを進める中で行き詰まったときも、ここに戻ってきてください。
         </p>
       </div>
 
@@ -442,7 +438,7 @@
             <tr>
               <td>Windows</td>
               <td>
-                スタートメニューで「<strong>PowerShell</strong>」と入力して起動（コマンドプロンプトでも可）。
+                スタートメニューで「<strong>PowerShell</strong>」と入力して起動。
               </td>
             </tr>
           </table>
@@ -527,8 +523,7 @@ cd helpdesk-ai-lessons</pre
           </div>
           <div class="term win">
             <div class="term-head">
-              <span class="swatch"></span>Windows（PowerShell /
-              コマンドプロンプト共通）
+              <span class="swatch"></span>Windows（PowerShell）
             </div>
             <pre>.venv\Scripts\activate</pre>
           </div>
@@ -537,6 +532,25 @@ cd helpdesk-ai-lessons</pre
           有効化に成功すると、プロンプトの先頭に
           <code class="inline">(.venv)</code>
           と表示されます。以降のコマンドはこの状態で実行してください。
+        </p>
+        <div class="warn">
+          <span class="mark">⚠️</span
+          ><span
+            ><strong>Windowsで PSSecurityException
+            が出る場合：</strong>PowerShellのセキュリティ設定（実行ポリシー）でスクリプトの実行がブロックされています。<br />次のコマンドを一度だけ実行して許可してください。</span
+          >
+        </div>
+        <div class="term solo full-block">
+          <div class="term-head">
+            <span class="swatch"></span>Windows（PowerShell）
+          </div>
+          <pre>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</pre>
+        </div>
+        <p>
+          確認を求められたら
+          <code class="inline">Y</code>
+          と入力してください。<br />その後、もう一度 activate
+          のコマンドを実行すれば有効化できます。
         </p>
       </section>
 
