@@ -536,8 +536,8 @@ cd helpdesk-ai-lessons</pre
         <div class="warn">
           <span class="mark">⚠️</span
           ><span
-            ><strong>Windowsで PSSecurityException
-            が出る場合：</strong>PowerShellのセキュリティ設定（実行ポリシー）でスクリプトの実行がブロックされています。<br />次のコマンドを一度だけ実行して許可してください。</span
+            ><strong>Windowsで PSSecurityException が出る場合：</strong
+            >PowerShellのセキュリティ設定（実行ポリシー）でスクリプトの実行がブロックされています。<br />次のコマンドを一度だけ実行して許可してください。</span
           >
         </div>
         <div class="term solo full-block">
@@ -547,9 +547,7 @@ cd helpdesk-ai-lessons</pre
           <pre>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</pre>
         </div>
         <p>
-          確認を求められたら
-          <code class="inline">Y</code>
-          と入力してください。<br />その後、もう一度 activate
+          コマンド実行後、もう一度 activate
           のコマンドを実行すれば有効化できます。
         </p>
       </section>
@@ -632,8 +630,13 @@ pip install jupyterlab ipykernel openai langchain-openai langgraph faiss-cpu num
               >.ipynb</code
             >）が添付ファイルとして用意されています。<br />ダウンロードした添付ファイルをこの
             <code class="inline">helpdesk-ai-lessons</code>
-            フォルダに展開し、Jupyter
-            Labの画面から開くだけで進められます（データファイルが必要なハンズオンでは、ノートブックと一緒に
+            フォルダに展開してください。<br />Jupyter
+            Labを閉じている場合は、この
+            <code class="inline">helpdesk-ai-lessons</code>
+            フォルダで仮想環境を有効化してから、再度
+            <code class="inline">jupyter lab</code>
+            を実行して開き直してください。<br />開いたJupyter
+            Labの画面から、展開したノートブックを開くだけで進められます（データファイルが必要なハンズオンでは、ノートブックと一緒に
             <code class="inline">data</code> フォルダも展開されます）。</span
           >
         </div>
