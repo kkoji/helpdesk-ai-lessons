@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ローカル環境の構築 | 1-4</title>
+<style>
+
+  :root {
+    --bg: #fcfdff;
+    --surface: #f2f6fc;
+    --surface-2: #eaf0f9;
+    --border: #dde6f2;
+    --text: #22303e;
+    --text-muted: #5b6b7c;
+    --text-faint: #8899aa;
+    --accent: #1f6feb;
+    --accent-ink: #0d47b8;
+    --accent-soft: #e3ebf6;
+    --alt: #0e7490;
+    --alt-soft: #e0f5f9;
+    --warn: #e6a817;
+    --warn-soft: #fff4cc;
+    --warn-ink: #7a5900;
+    --code-bg: #0d1b2a;
+    --code-text: #dce8f5;
+    --code-border: #1c3350;
+    --shadow: 0 1px 2px rgba(20, 40, 70, 0.04), 0 8px 24px -12px rgba(20, 40, 70, 0.12);
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #0b1420;
+    --surface: #101e2f;
+    --surface-2: #14263a;
+    --border: #24384f;
+    --text: #e6edf5;
+    --text-muted: #a9bbcd;
+    --text-faint: #7488a0;
+    --accent: #5b9dff;
+    --accent-ink: #bcd7ff;
+    --accent-soft: #16283f;
+    --alt: #4dd0e5;
+    --alt-soft: #0f2a30;
+    --warn: #e8b64a;
+    --warn-soft: #2c2408;
+    --warn-ink: #f3d38a;
+    --code-bg: #060d16;
+    --code-text: #cfe1f5;
+    --code-border: #1c3350;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 28px -12px rgba(0, 0, 0, 0.55);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b1420;
+      --surface: #101e2f;
+      --surface-2: #14263a;
+      --border: #24384f;
+      --text: #e6edf5;
+      --text-muted: #a9bbcd;
+      --text-faint: #7488a0;
+      --accent: #5b9dff;
+      --accent-ink: #bcd7ff;
+      --accent-soft: #16283f;
+      --alt: #4dd0e5;
+      --alt-soft: #0f2a30;
+      --warn: #e8b64a;
+      --warn-soft: #2c2408;
+      --warn-ink: #f3d38a;
+      --code-bg: #060d16;
+      --code-text: #cfe1f5;
+      --code-border: #1c3350;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 28px -12px rgba(0, 0, 0, 0.55);
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 17px;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 56px 24px 120px;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .eyebrow .sep { color: var(--text-faint); font-weight: 400; letter-spacing: 0; }
+
+  h1.title {
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 6px;
+    text-wrap: balance;
+  }
+
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 16px;
+    margin: 0 0 32px;
+  }
+
+  .lede {
+    font-size: 17px;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin: 0 0 40px;
+  }
+  .lede p { margin: 0 0 12px; }
+  .lede p:last-child { margin-bottom: 0; }
+  .lede strong { color: var(--accent-ink); }
+
+  .toolbox {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--alt-soft);
+    border: 1px solid color-mix(in srgb, var(--alt) 35%, var(--border));
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin: 0 0 44px;
+  }
+  .toolbox .icon { font-size: 22px; line-height: 1; margin-top: 2px; }
+  .toolbox .body { color: var(--text); font-size: 15.5px; line-height: 1.75; }
+  .toolbox strong { color: var(--alt); }
+
+  section.block { margin: 0 0 52px; }
+
+  h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0 0 18px;
+    padding-left: 16px;
+    border-left: 4px solid var(--accent);
+  }
+
+  .step h2 { border-left-color: var(--accent); }
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    height: 30px;
+    padding: 0 4px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  h3.label {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--text-muted);
+    margin: 28px 0 10px;
+  }
+  h3.label:first-child { margin-top: 0; }
+
+  p { margin: 0 0 14px; color: var(--text); }
+  .block > p:first-of-type { margin-top: 0; }
+
+  code.inline {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 1px 6px;
+    font-size: 0.88em;
+    color: var(--accent-ink);
+  }
+
+  /* --- OS terminal blocks --- */
+  .os-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 0 0 16px;
+  }
+  @media (max-width: 620px) {
+    .os-grid { grid-template-columns: 1fr; }
+  }
+
+  .term {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .term.solo { grid-column: 1 / -1; }
+  .term-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--code-text);
+    border-bottom: 1px solid var(--code-border);
+  }
+  .term-head .swatch { width: 9px; height: 9px; border-radius: 50%; }
+  .term.mac .term-head .swatch { background: var(--accent); }
+  .term.win .term-head .swatch { background: var(--alt); }
+  .term.mac .term-head { color: var(--accent-ink); }
+  .term.win .term-head { color: var(--alt); }
+  .term pre {
+    margin: 0;
+    padding: 14px 16px 16px;
+    overflow-x: auto;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--code-text);
+    white-space: pre;
+  }
+  .term .cmt { color: #7c93ad; }
+
+  .full-block { margin: 0 0 16px; }
+
+  /* --- tables --- */
+  .tbl-wrap { overflow-x: auto; margin: 0 0 16px; border: 1px solid var(--border); border-radius: 12px; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; }
+  th, td { text-align: left; padding: 11px 16px; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  th { background: var(--surface-2); color: var(--text-muted); font-size: 12.5px; letter-spacing: 0.04em; text-transform: uppercase; font-weight: 700; }
+  td code.inline { white-space: nowrap; }
+
+  /* --- callouts --- */
+  .tip, .warn {
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 0 0 16px;
+    font-size: 15px;
+    line-height: 1.7;
+    display: flex;
+    gap: 10px;
+  }
+  .tip { background: var(--accent-soft); color: var(--text); }
+  .tip .mark { color: var(--accent); }
+  .warn { background: var(--warn-soft); color: var(--text); }
+  .warn .mark { color: var(--warn-ink); }
+  .tip .mark, .warn .mark { flex-shrink: 0; font-size: 16px; }
+  .tip strong, .warn strong { color: inherit; }
+
+  .next-note {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 15px;
+    color: var(--text-muted);
+  }
+  .next-note code.inline { font-size: 0.85em; }
+
+  /* --- FAQ --- */
+  .faq-item {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 14px 18px;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--accent);
+    border-bottom: 2px solid var(--accent);
+    transform: rotate(-45deg);
+    transition: transform 0.15s ease;
+    flex-shrink: 0;
+  }
+  .faq-item[open] summary::before { transform: rotate(45deg); }
+  .faq-item summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .faq-item .a {
+    padding: 0 18px 16px 36px;
+    color: var(--text-muted);
+    font-size: 14.5px;
+    line-height: 1.75;
+  }
+  .faq-item .a code.inline { font-size: 0.9em; }
+
+  .closing {
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 15.5px;
+  }
+  .closing strong { color: var(--text); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq-item summary::before { transition: none; }
+  }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="eyebrow"><span class="dot"></span>テキストレクチャー <span class="sep">/</span> セクション1・はじめに</div>
+  <h1 class="title">ローカル環境の構築</h1>
+  <p class="subtitle">前半のJupyterハンズオンをご自身のPCで進めるための、環境構築手順</p>
+
+  <div class="lede">
+    <p>Udemyラボ（Personal Plan / Business Pro限定）を利用する方は、このレクチャーの作業は<strong>不要です</strong>。各ハンズオンのラボにはノートブック・データ・ライブラリが配置済みで、レクチャーを開くだけですぐに使えます（詳しくは前のレクチャー「Udemyラボの使い方と利用条件」参照）。</p>
+    <p>このレクチャーを終えると、次から始まるハンズオンをすぐに動かせる状態になります。ハンズオンやラボを進める中で行き詰まったときも、ここに戻ってきてください。</p>
+  </div>
+
+  <div class="toolbox">
+    <div class="icon">🧰</div>
+    <div class="body">
+      ここで整えるのは、いわば<strong>「道具箱」</strong>です。作業用のフォルダを1つ作り、そこにPythonの仮想環境と、コース全体で使うライブラリをまとめてインストールします。<strong>一度この環境を作ってしまえば</strong>、以降のハンズオンでは、レクチャーに添付されているノートブックをこのフォルダにダウンロードして開くだけで進められます（<code class="inline">helpdesk-ai</code> リポジトリ全体をダウンロードする必要はありません）。
+    </div>
+  </div>
+
+  <section class="block">
+    <h2>事前準備：ターミナルと Python の確認</h2>
+    <p>このコースでは <strong>Mac（macOS）／ Windows</strong> の両方に対応した手順を用意しています。コマンドが異なる箇所は、その都度両方を併記しますので、ご自身の環境の方を実行してください。</p>
+
+    <h3 class="label">ターミナル（コマンドを打つ画面）の開き方</h3>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>OS</th><th>開き方</th></tr>
+        <tr><td>Mac</td><td>「ターミナル」アプリを起動（<code class="inline">command + スペース</code> で Spotlight を開き「ターミナル」と入力）。</td></tr>
+        <tr><td>Windows</td><td>スタートメニューで「<strong>PowerShell</strong>」と入力して起動（コマンドプロンプトでも可）。</td></tr>
+      </table>
+    </div>
+
+    <h3 class="label">Python がインストールされているか確認</h3>
+    <p>ターミナルで次を実行し、<code class="inline">Python 3.10.x</code> のようにバージョンが表示されればOKです（<strong>3.10 以上</strong>を推奨）。</p>
+    <div class="os-grid">
+      <div class="term mac">
+        <div class="term-head"><span class="swatch"></span>Mac / Linux</div>
+        <pre>python3 --version</pre>
+      </div>
+      <div class="term win">
+        <div class="term-head"><span class="swatch"></span>Windows</div>
+        <pre>python --version</pre>
+      </div>
+    </div>
+    <p>表示されない・バージョンが古い（3.10 未満）場合は、下記の手順でインストールしてください。</p>
+
+    <h3 class="label">Python のインストール（未インストールの場合）</h3>
+    <p>
+      1. <a href="https://www.python.org/downloads/">python.org のダウンロードページ</a>を開く<br>
+      2. お使いのOS（Windows / macOS）向けの最新版インストーラーをダウンロードする<br>
+      3. ダウンロードしたインストーラーを実行してインストールする
+    </p>
+
+    <div class="warn"><span class="mark">⚠️</span><span><strong>Windowsの注意点：</strong>インストーラー最初の画面で「<strong>Add python.exe to PATH</strong>」に必ずチェックを入れてください（チェックし忘れると <code class="inline">python</code> コマンドが見つかりません）。チェックせずに進めてしまった場合や、<code class="inline">python</code> と打つとMicrosoft Storeが開いてしまう場合は、Pythonを入れ直してこのチェックを付けるのが確実です。</span></div>
+    <div class="warn"><span class="mark">⚠️</span><span><strong>Macの注意点：</strong>新しいmacOSにはPythonが標準で入っていないことがあります（<code class="inline">python3 --version</code> が反応しない場合）。その場合も上記の手順でインストールすればOKです。インストール後はターミナルを開き直してから再確認してください。</span></div>
+  </section>
+
+  <section class="block step">
+    <h2><span class="step-num">1</span>作業用フォルダの作成</h2>
+    <p>前半のハンズオンで使う専用フォルダを1つ作ります。このフォルダに、以降ダウンロードするノートブックをすべてまとめていきます。</p>
+    <div class="term solo full-block">
+      <div class="term-head"><span class="swatch"></span>Mac / Windows 共通</div>
+      <pre>mkdir helpdesk-ai-lessons
+cd helpdesk-ai-lessons</pre>
+    </div>
+    <div class="tip"><span class="mark">💡</span><span>フォルダ名は一例です。お好きな名前で構いませんが、GitHubリポジトリ名の <code class="inline">helpdesk-ai</code>（次のレクチャーで紹介）とは紛らわしいので別の名前にしておくことをおすすめします。</span></div>
+  </section>
+
+  <section class="block step">
+    <h2><span class="step-num">2</span>仮想環境の作成と有効化</h2>
+    <p>このフォルダ専用のライブラリ置き場（仮想環境）を作ります。仮想環境を使うと、他のプロジェクトとライブラリが混ざりません。</p>
+
+    <h3 class="label">仮想環境を作成</h3>
+    <div class="os-grid">
+      <div class="term mac"><div class="term-head"><span class="swatch"></span>Mac / Linux</div><pre>python3 -m venv .venv</pre></div>
+      <div class="term win"><div class="term-head"><span class="swatch"></span>Windows</div><pre>python -m venv .venv</pre></div>
+    </div>
+
+    <h3 class="label">仮想環境を有効化</h3>
+    <div class="os-grid">
+      <div class="term mac"><div class="term-head"><span class="swatch"></span>Mac / Linux</div><pre>source .venv/bin/activate</pre></div>
+      <div class="term win"><div class="term-head"><span class="swatch"></span>Windows（PowerShell / コマンドプロンプト共通）</div><pre>.venv\Scripts\activate</pre></div>
+    </div>
+    <p>有効化に成功すると、プロンプトの先頭に <code class="inline">(.venv)</code> と表示されます。以降のコマンドはこの状態で実行してください。</p>
+  </section>
+
+  <section class="block step">
+    <h2><span class="step-num">3</span>コース全体で使うライブラリの一括インストール</h2>
+    <p>このコースの前半で使うライブラリを、ここでまとめてインストールします。ここで入れておけば、この先の各ハンズオンで追加インストールは基本的に不要です。</p>
+    <div class="term solo full-block">
+      <div class="term-head"><span class="swatch"></span>Mac / Windows 共通</div>
+      <pre>pip install jupyterlab ipykernel openai langchain-openai langgraph faiss-cpu numpy</pre>
+    </div>
+    <p>少し時間がかかりますので、完了するまで待ちましょう。</p>
+
+    <h3 class="label">インストールされる主なライブラリ</h3>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>ライブラリ</th><th>用途</th></tr>
+        <tr><td><code class="inline">jupyterlab</code> / <code class="inline">ipykernel</code></td><td>Jupyter Labの本体・ノートブック実行環境</td></tr>
+        <tr><td><code class="inline">openai</code></td><td>OpenAI APIとの接続（生のAPI呼び出し）</td></tr>
+        <tr><td><code class="inline">langchain-openai</code></td><td>LangChain経由でのOpenAI API接続</td></tr>
+        <tr><td><code class="inline">langgraph</code></td><td>エージェントのグラフ構造</td></tr>
+        <tr><td><code class="inline">faiss-cpu</code></td><td>ベクトル検索エンジン（FAISS）</td></tr>
+        <tr><td><code class="inline">numpy</code></td><td>ベクトル演算</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="block step">
+    <h2><span class="step-num">4</span>Jupyter Labの起動確認</h2>
+    <p>環境が整ったか、実際にJupyter Labを起動して確認しましょう。</p>
+    <div class="term solo full-block">
+      <div class="term-head"><span class="swatch"></span>Mac / Windows 共通</div>
+      <pre>jupyter lab</pre>
+    </div>
+    <p>ブラウザでJupyter Labのランチャー画面が開けば、環境のセットアップは完了です。確認できたら、いったんタブを閉じて構いません。</p>
+    <div class="tip"><span class="mark">➡️</span><span><strong>次のハンズオンからの進め方：</strong>各ハンズオンのレクチャーには、そのレクチャー専用のノートブック（<code class="inline">.ipynb</code>）が添付ファイルとして用意されています。ダウンロードした添付ファイルをこの <code class="inline">helpdesk-ai-lessons</code> フォルダに展開し、Jupyter Labの画面から開くだけで進められます（データファイルが必要なハンズオンでは、ノートブックと一緒に <code class="inline">data</code> フォルダも展開されます）。</span></div>
+  </section>
+
+  <section class="block">
+    <h2>OpenAI APIキーの設定</h2>
+    <p>各ハンズオンのノートブックを実行すると、最初にAPIキーの入力を求めるプロンプトが表示されます。入力した値は画面に表示されず、ノートブックにも保存されません。APIキーの取得方法はレクチャー2-3で案内します。</p>
+    <div class="term solo full-block">
+      <div class="term-head"><span class="swatch"></span>ノートブック実行時のプロンプト</div>
+      <pre>OpenAI API キーを入力してください: ＿＿＿</pre>
+    </div>
+    <p>環境変数として事前に設定しておく場合は以下のようにします。</p>
+    <div class="os-grid">
+      <div class="term mac">
+        <div class="term-head"><span class="swatch"></span>Mac / Linux</div>
+        <pre>export OPENAI_API_KEY="sk-..."</pre>
+      </div>
+      <div class="term win">
+        <div class="term-head"><span class="swatch"></span>Windows（コマンドプロンプト）</div>
+        <pre>set OPENAI_API_KEY=sk-...</pre>
+      </div>
+    </div>
+    <div class="os-grid">
+      <div class="term win solo" style="grid-column: 1 / -1;">
+        <div class="term-head"><span class="swatch"></span>Windows（PowerShell）</div>
+        <pre>$env:OPENAI_API_KEY="sk-..."</pre>
+      </div>
+    </div>
+    <div class="tip"><span class="mark">💡</span><span>この方法で設定した環境変数は、そのターミナルを閉じると消えます。ターミナルを開き直したら再度設定するか、ノートブック実行時のプロンプトに直接入力してください。</span></div>
+    <div class="warn"><span class="mark">⚠️</span><span>APIキーをソースコードに直接書き込まないでください。誤ってGitHubに公開してしまうリスクがあります。</span></div>
+  </section>
+
+  <section class="block">
+    <h2>よくある質問</h2>
+
+    <details class="faq-item">
+      <summary>python3 コマンドが見つからないと言われる（主に Windows）</summary>
+      <div class="a">Windows では通常 <code class="inline">python</code>（3なし）が正しいコマンドです。<code class="inline">python --version</code> で確認してください。それでも見つからない場合は、Python インストール時に「Add python.exe to PATH」にチェックが入っていない可能性があります。<code class="inline">py --version</code> を試すか、Pythonを入れ直してください（Python 3.10以上を推奨）。</div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Windows で .venv\Scripts\activate を実行するとエラーになる（PowerShell）</summary>
+      <div class="a">PowerShell のセキュリティ設定（実行ポリシー）でスクリプト実行がブロックされている場合があります。次のいずれかで解決できます。<br>・<strong>コマンドプロンプト（cmd）</strong> を使って <code class="inline">.venv\Scripts\activate</code> を実行する（最も簡単）。<br>・PowerShell を使い続けたい場合は、一度だけ次を実行して許可する：<code class="inline">Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>（確認を求められたら <code class="inline">Y</code>）。その後もう一度 activate を実行する。</div>
+    </details>
+
+    <details class="faq-item">
+      <summary>pip install が失敗する / パッケージが見つからない</summary>
+      <div class="a">仮想環境の有効化を忘れていないか確認してください。プロンプトの先頭に <code class="inline">(.venv)</code> が表示されていれば有効化されています。表示されていない場合はステップ2の有効化コマンドをもう一度実行してください。</div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Jupyter Labがブラウザで開かない</summary>
+      <div class="a">ターミナルに表示されたURLを手動でブラウザに貼り付けてみてください（<code class="inline">http://localhost:8888/...</code> のような形式）。</div>
+    </details>
+
+    <details class="faq-item">
+      <summary>ハンズオンのノートブックを開いたら、データファイルが見つからないエラーが出る</summary>
+      <div class="a">ノートブックと一緒に展開される <code class="inline">data</code> フォルダが、ノートブックと同じ階層に無いと発生します。添付ファイルをダウンロードしたときの <code class="inline">notebook/</code> ・<code class="inline">data/</code> の配置を崩さずに展開してください。</div>
+    </details>
+  </section>
+
+  <div class="closing">
+    <p>ローカル環境の準備が整いました。次のテキストレクチャーでは、コースの完成版ソースコードのGitHubリンクや、参考資料をまとめて案内します。準備ができたら、<strong>次のセクションからAIとLLMの学習を始めましょう。</strong></p>
+  </div>
+
+</div>
+
+</body>
+</html>
