@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>プロンプトテンプレート活用チートシート | 3-6</title>
+    <style>
+      :root {
+        --bg: #fcfdff;
+        --surface: #f2f6fc;
+        --surface-2: #eaf0f9;
+        --border: #dde6f2;
+        --text: #22303e;
+        --text-muted: #5b6b7c;
+        --text-faint: #8899aa;
+        --accent: #1f6feb;
+        --accent-ink: #0d47b8;
+        --accent-soft: #e3ebf6;
+        --alt: #0e7490;
+        --alt-soft: #e0f5f9;
+        --warn: #e6a817;
+        --warn-soft: #fff4cc;
+        --warn-ink: #7a5900;
+        --code-bg: #0d1b2a;
+        --code-text: #dce8f5;
+        --code-border: #1c3350;
+        --fill: #ffd479;
+        --shadow:
+          0 1px 2px rgba(20, 40, 70, 0.04),
+          0 8px 24px -12px rgba(20, 40, 70, 0.12);
+      }
+
+      :root[data-theme="dark"] {
+        --bg: #0b1420;
+        --surface: #101e2f;
+        --surface-2: #14263a;
+        --border: #24384f;
+        --text: #e6edf5;
+        --text-muted: #a9bbcd;
+        --text-faint: #7488a0;
+        --accent: #5b9dff;
+        --accent-ink: #bcd7ff;
+        --accent-soft: #16283f;
+        --alt: #4dd0e5;
+        --alt-soft: #0f2a30;
+        --warn: #e8b64a;
+        --warn-soft: #2c2408;
+        --warn-ink: #f3d38a;
+        --code-bg: #060d16;
+        --code-text: #cfe1f5;
+        --code-border: #1c3350;
+        --fill: #ffd479;
+        --shadow:
+          0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 28px -12px rgba(0, 0, 0, 0.55);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0b1420;
+          --surface: #101e2f;
+          --surface-2: #14263a;
+          --border: #24384f;
+          --text: #e6edf5;
+          --text-muted: #a9bbcd;
+          --text-faint: #7488a0;
+          --accent: #5b9dff;
+          --accent-ink: #bcd7ff;
+          --accent-soft: #16283f;
+          --alt: #4dd0e5;
+          --alt-soft: #0f2a30;
+          --warn: #e8b64a;
+          --warn-soft: #2c2408;
+          --warn-ink: #f3d38a;
+          --code-bg: #060d16;
+          --code-text: #cfe1f5;
+          --code-border: #1c3350;
+          --shadow:
+            0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 28px -12px rgba(0, 0, 0, 0.55);
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+        font-size: 17px;
+        line-height: 1.8;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .page {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 56px 24px 120px;
+      }
+
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: var(--accent);
+        text-transform: uppercase;
+        margin-bottom: 14px;
+      }
+      .eyebrow .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+
+      h1.title {
+        font-size: 34px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+        margin: 0 0 6px;
+        text-wrap: balance;
+      }
+
+      .subtitle {
+        color: var(--text-muted);
+        font-size: 16px;
+        margin: 0 0 32px;
+      }
+
+      .toolbox {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        background: var(--alt-soft);
+        border: 1px solid color-mix(in srgb, var(--alt) 35%, var(--border));
+        border-radius: 14px;
+        padding: 18px 22px;
+        margin: 0 0 44px;
+      }
+      .toolbox .icon {
+        font-size: 22px;
+        line-height: 1;
+        margin-top: 2px;
+      }
+      .toolbox .body {
+        color: var(--text);
+        font-size: 15.5px;
+        line-height: 1.75;
+      }
+      .toolbox strong {
+        color: var(--alt);
+      }
+
+      section.block {
+        margin: 0 0 52px;
+      }
+
+      h2 {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        font-size: 22px;
+        font-weight: 800;
+        margin: 0 0 18px;
+        padding-left: 16px;
+        border-left: 4px solid var(--accent);
+      }
+
+      h3.label {
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        color: var(--text-muted);
+        margin: 28px 0 10px;
+      }
+      h3.label:first-child {
+        margin-top: 0;
+      }
+
+      p {
+        margin: 0 0 14px;
+        color: var(--text);
+      }
+      .block > p:first-of-type {
+        margin-top: 0;
+      }
+
+      code.inline {
+        font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 1px 6px;
+        font-size: 0.88em;
+        color: var(--accent-ink);
+      }
+
+      /* --- 5原則 早見表 --- */
+      .tbl-wrap {
+        overflow-x: auto;
+        margin: 0 0 16px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 15px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 11px 16px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      th {
+        background: var(--surface-2);
+        color: var(--text-muted);
+        font-size: 12.5px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      td.rule-name {
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      td a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+      }
+      td a:hover {
+        border-bottom-color: var(--accent);
+      }
+
+      /* --- 原則カード --- */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 22px 24px 24px;
+        margin: 0 0 22px;
+        scroll-margin-top: 20px;
+      }
+      .card-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 6px;
+      }
+      .card-num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 800;
+        flex-shrink: 0;
+      }
+      .card-title {
+        font-size: 19px;
+        font-weight: 800;
+      }
+      .card-why {
+        color: var(--text-muted);
+        font-size: 15px;
+        margin: 0 0 18px;
+      }
+
+      /* --- コードブロック（コピーボタン付き） --- */
+      .code {
+        background: var(--code-bg);
+        border: 1px solid var(--code-border);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        margin: 0 0 16px;
+      }
+      .code-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 9px 10px 9px 14px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+        border-bottom: 1px solid var(--code-border);
+      }
+      .code-head .kind {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .code-head .swatch {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+      .code.example .code-head .swatch {
+        background: var(--alt);
+      }
+      .copy {
+        font: inherit;
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--code-text);
+        background: transparent;
+        border: 1px solid var(--code-border);
+        border-radius: 7px;
+        padding: 4px 11px;
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s;
+      }
+      .copy:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: var(--accent);
+      }
+      .copy.done {
+        color: #7ee2a8;
+        border-color: #7ee2a8;
+      }
+      .code pre {
+        margin: 0;
+        padding: 14px 16px 16px;
+        overflow-x: auto;
+        font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: 14px;
+        line-height: 1.75;
+        color: var(--code-text);
+        white-space: pre;
+      }
+      .code .fill {
+        color: var(--fill);
+        font-weight: 600;
+      }
+      .code .cmt {
+        color: #7c93ad;
+      }
+      .code .kw {
+        color: #7fb3ff;
+      }
+      .code .str {
+        color: #9fe0b0;
+      }
+
+      /* --- callouts --- */
+      .tip,
+      .warn,
+      .key {
+        border-radius: 12px;
+        padding: 14px 18px;
+        margin: 0 0 16px;
+        font-size: 15px;
+        line-height: 1.7;
+        display: flex;
+        gap: 10px;
+      }
+      .tip {
+        background: var(--accent-soft);
+        color: var(--text);
+      }
+      .tip .mark {
+        color: var(--accent);
+      }
+      .warn {
+        background: var(--warn-soft);
+        color: var(--text);
+      }
+      .warn .mark {
+        color: var(--warn-ink);
+      }
+      .key {
+        background: var(--alt-soft);
+        border: 1px solid color-mix(in srgb, var(--alt) 35%, var(--border));
+        color: var(--text);
+      }
+      .key .mark {
+        color: var(--alt);
+      }
+      .tip .mark,
+      .warn .mark,
+      .key .mark {
+        flex-shrink: 0;
+        font-size: 16px;
+      }
+
+      /* --- チェックリスト --- */
+      .checklist {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .checklist li {
+        position: relative;
+        padding: 12px 16px 12px 46px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface);
+        margin-bottom: 10px;
+        font-size: 16px;
+      }
+      .checklist li::before {
+        content: "";
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 17px;
+        height: 17px;
+        border: 2px solid var(--accent);
+        border-radius: 5px;
+      }
+      .checklist strong {
+        color: var(--accent-ink);
+      }
+
+      .notes {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 8px 20px 8px 38px;
+        font-size: 15px;
+        color: var(--text-muted);
+      }
+      .notes li {
+        margin: 12px 0;
+      }
+      .notes strong {
+        color: var(--text);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="eyebrow"><span class="dot"></span>セクション3 LangChain入門</div>
+      <h1 class="title">プロンプトテンプレート活用チートシート</h1>
+      <p class="subtitle">
+        「良いプロンプトの5原則」を、コピペしてすぐ使える形にまとめた早見表
+      </p>
+
+      <div class="toolbox">
+        <div class="icon">📋</div>
+        <div class="body">
+          前のレクチャー「プロンプトエンジニアリングの基礎」で学んだ5原則の、実践用テンプレート集です。<br />
+          <strong>ブックマークしておいてください。</strong>ハンズオンや自分のプロジェクトで「プロンプトはどう書くんだったか」と迷ったら、このページに戻ってきてください。
+        </div>
+      </div>
+
+      <section class="block">
+        <h2>5原則 早見表</h2>
+        <div class="tbl-wrap">
+          <table>
+            <tr>
+              <th>原則</th>
+              <th>一言で</th>
+              <th>効果</th>
+            </tr>
+            <tr>
+              <td class="rule-name"><a href="#r1">① 具体的に指示する</a></td>
+              <td>対象・読み手・分量を明示する</td>
+              <td>的の絞れた答えになる</td>
+            </tr>
+            <tr>
+              <td class="rule-name"><a href="#r2">② 役割を与える</a></td>
+              <td>systemで「あなたは〜です」と伝える</td>
+              <td>口調・視点・守備範囲が安定する</td>
+            </tr>
+            <tr>
+              <td class="rule-name"><a href="#r3">③ 出力形式を指定する</a></td>
+              <td>箇条書き・表・JSONを指定する</td>
+              <td>そのまま使える／コードで処理できる</td>
+            </tr>
+            <tr>
+              <td class="rule-name"><a href="#r4">④ 例を見せる</a></td>
+              <td>お手本を1〜2個添える</td>
+              <td>型を真似てくれる</td>
+            </tr>
+            <tr>
+              <td class="rule-name">
+                <a href="#r5">⑤ 「わからないとき」を決める</a>
+              </td>
+              <td>逃げ道を用意する</td>
+              <td>ハルシネーション対策の第一歩になる</td>
+            </tr>
+          </table>
+        </div>
+        <div class="tip">
+          <span class="mark">💡</span
+          ><span
+            >5つとも、<strong
+              >AIは前提を共有していない相手なので、人間相手なら省略できることまで言葉にして渡す</strong
+            >、という一点から導かれています。迷ったらこの原点に戻ってください。</span
+          >
+        </div>
+      </section>
+
+      <section class="block">
+        <h2>原則別テンプレート集</h2>
+        <p>
+          <code class="inline">{ }</code>
+          の部分（コード内で
+          <span
+            style="
+              color: var(--fill);
+              background: var(--code-bg);
+              border-radius: 5px;
+              padding: 1px 7px;
+              font-weight: 700;
+            "
+            >{ 黄色 }</span
+          >
+          で表示）を、ご自身の内容に書き換えて使ってください。
+        </p>
+
+        <!-- ① -->
+        <div class="card" id="r1">
+          <div class="card-head">
+            <span class="card-num">1</span
+            ><span class="card-title">具体的に指示する</span>
+          </div>
+          <p class="card-why">
+            指定しなかった条件は、AIが勝手に決めます。決めてほしくないことは、こちらが先に決めて渡します。
+          </p>
+
+          <div class="code">
+            <div class="code-head">
+              <span class="kind"><span class="swatch"></span>テンプレート</span>
+              <button class="copy" type="button">コピー</button>
+            </div>
+            <pre><span class="fill">{読み手}</span>向けに、<span class="fill">{対象}</span>について、<span class="fill">{分量・形式}</span>で説明してください。
+特に<span class="fill">{必ず触れてほしい点}</span>に触れてください。</pre>
+          </div>
+
+          <div class="code example">
+            <div class="code-head">
+              <span class="kind"><span class="swatch"></span>記入例</span>
+              <button class="copy" type="button">コピー</button>
+            </div>
+            <pre>新入社員向けに、交通費の経費精算の手順を、3ステップで説明してください。
+特に提出期限に必ず触れてください。</pre>
+          </div>
+        </div>
+
+        <!-- ② -->
+        <div class="card" id="r2">
+          <div class="card-head">
+            <span class="card-num">2</span
+            ><span class="card-title">役割を与える</span>
+          </div>
+          <p class="card-why">
+            役割を決めないと、AIは「誰として答えるか」を毎回自分で選びます。立場を固定すれば、答えのぶれが小さくなります。systemメッセージに書きます。
+          </p>
+
+          <div class="code">
+            <div class="code-head">
+              <span class="kind"><span class="swatch"></span>テンプレート</span>
+              <button class="copy" type="button">コピー</button>
+            </div>
+            <pre>あなたは<span class="fill">{役割}</span>です。
+<span class="fill">{口調・スタイルの指示}</span>で答えてください。
+<span class="fill">{守備範囲の制約}</span>。</pre>
+          </div>
+
+          <div class="code example">
+            <div class="code-head">
+              <span class="kind"><span class="swatch"></span>記入例</span>
+              <button class="copy" type="button">コピー</button>
+            </div>
+            <pre>あなたは社内ヘルプデスクの担当者です。
+丁寧な日本語で、簡潔に答えてください。
+社内の問い合わせにのみ答え、それ以外の話題には「お答えできません」と回答してください。</pre>
+          </div>
+        </div>
+
+        <!-- ③ -->
+        <div class="card" id="r3">
+          <div class="card-head">
+            <span class="card-num">3</span
+            ><span class="card-title">出力形式を指定する</span>
+          </div>
+          <p class="card-why">
+            答えの形を先に決めると、そのまま使える出力になります。プログラムで後処理する場合は特に重要です。
+          </p>
+
+          <div class="code">
+            <div class="code-head">
+              <span class="kind"><span class="swatch"></span>テンプレート</span>
+              <button class="copy" type="button">コピー</button>
+            </div>
+            <pre>次の形式で答えてください。
+【結論】（1行）
+【手順】（番号付きの箇条書き、最大5項目）
+【問い合わせ先】（部署名）</pre>
+          </div>
+
+          <h3 class="label">プログラムで後処理する場合（JSON指定）</h3>
+          <div class="code example">
+            <div class="code-head">
+              <span class="kind"><span class="swatch"></span>テンプレート</span>
+              <button class="copy" type="button">コピー</button>
+            </div>
+            <pre>必ず次のキーを持つJSONのみを出力してください。説明文は不要です。
+{"answer": "回答本文", "department": "担当部署名"}</pre>
+          </div>
+
+          <div class="warn">
+            <span class="mark">⚠️</span
+            ><span
+              >JSON形式を指定しても、まれに余計な文が混ざることがあります。アプリに組み込むときは、受け取り側での検証も忘れずに行ってください（コース後半で扱います）。</span
+            >
+          </div>
+        </div>
+
+        <!-- ④ -->
+        <div class="card" id="r4">
+          <div class="card-head">
+            <span class="card-num">4</span
+            ><span class="card-title">例を見せる（Few-shot）</span>
+          </div>
+          <p class="card-why">
+            文章で細かく形式を指定しようとすると、指示自体が長く複雑になります。お手本を1つ見せるほうが、短くて誤解も生みません。
+          </p>
+
+          <div class="code">
+            <div class="code-head">
+              <span class="kind"><span class="swatch"></span>テンプレート</span>
+              <button class="copy" type="button">コピー</button>
+            </div>
+            <pre>以下の回答例と同じ型で答えてください。
+
+# 回答例
+質問: 社用携帯を紛失しました
+【結論】直ちに利用停止の手続きが必要です
+【手順】1. 情報システム部に電話 2. 紛失届を提出
+【問い合わせ先】情報システム部
+
+質問: <span class="fill">{question}</span></pre>
+          </div>
+        </div>
+
+        <!-- ⑤ -->
+        <div class="card" id="r5">
+          <div class="card-head">
+            <span class="card-num">5</span
+            ><span class="card-title">「わからないとき」の振る舞いを決める</span>
+          </div>
+          <p class="card-why">
+            AIに「わからないと言っていい」と許可を与えます。ハルシネーション対策の第一歩です。
+          </p>
+
+          <div class="code">
+            <div class="code-head">
+              <span class="kind"><span class="swatch"></span>テンプレート</span>
+              <button class="copy" type="button">コピー</button>
+            </div>
+            <pre>確かな情報がない場合は、推測で答えず、正直に
+「わかりません。<span class="fill">{案内先}</span>にお問い合わせください」と答えてください。</pre>
+          </div>
+
+          <div class="code example">
+            <div class="code-head">
+              <span class="kind"><span class="swatch"></span>記入例</span>
+              <button class="copy" type="button">コピー</button>
+            </div>
+            <pre>確かな情報がない場合は、推測で答えず、正直に
+「わかりません。総務部（内線1234）にお問い合わせください」と答えてください。</pre>
+          </div>
+
+          <div class="key">
+            <span class="mark">🔑</span
+            ><span
+              >この一文は、このコースで作る社内ヘルプデスクAIのシステムプロンプトにも入る、最重要の型です。ただしプロンプトだけでは完全には防げないため、この後に学ぶ
+              <strong>RAG</strong> と組み合わせます。</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="block">
+        <h2>LangChainで使える完成形</h2>
+        <p>
+          テンプレートを
+          <code class="inline">ChatPromptTemplate</code>
+          に落とし込んだ、そのまま実行できるコードです。
+        </p>
+
+        <h3 class="label">基本形：ヘルプデスクQ&amp;A（原則①②⑤入り）</h3>
+        <div class="code">
+          <div class="code-head">
+            <span class="kind"><span class="swatch"></span>Python</span>
+            <button class="copy" type="button">コピー</button>
+          </div>
+          <pre><span class="kw">from</span> langchain_openai <span class="kw">import</span> ChatOpenAI
+<span class="kw">from</span> langchain_core.prompts <span class="kw">import</span> ChatPromptTemplate
+<span class="kw">from</span> langchain_core.output_parsers <span class="kw">import</span> StrOutputParser
+
+prompt = ChatPromptTemplate.from_messages([
+    (<span class="str">"system"</span>,
+     <span class="str">"あなたは社内ヘルプデスクの担当者です。"</span>
+     <span class="str">"丁寧な日本語で、簡潔に答えてください。"</span>
+     <span class="str">"確かな情報がない場合は、推測で答えず、正直に"</span>
+     <span class="str">"「わかりません。担当部署にお問い合わせください」と答えてください。"</span>),
+    (<span class="str">"user"</span>, <span class="str">"{question}"</span>),
+])
+llm = ChatOpenAI(model=<span class="str">"gpt-4o-mini"</span>)
+parser = StrOutputParser()
+
+chain = prompt | llm | parser
+print(chain.invoke({<span class="str">"question"</span>: <span class="str">"有給休暇の申請方法を教えてください"</span>}))</pre>
+        </div>
+
+        <h3 class="label">応用形：型を固定した回答（原則③④入り）</h3>
+        <div class="code">
+          <div class="code-head">
+            <span class="kind"><span class="swatch"></span>Python</span>
+            <button class="copy" type="button">コピー</button>
+          </div>
+          <pre>prompt = ChatPromptTemplate.from_messages([
+    (<span class="str">"system"</span>,
+     <span class="str">"あなたは社内ヘルプデスクの担当者です。"</span>
+     <span class="str">"以下の回答例と同じ型で答えてください。\n\n"</span>
+     <span class="str">"# 回答例\n"</span>
+     <span class="str">"質問: 社用携帯を紛失しました\n"</span>
+     <span class="str">"【結論】直ちに利用停止の手続きが必要です\n"</span>
+     <span class="str">"【手順】1. 情報システム部に電話 2. 紛失届を提出\n"</span>
+     <span class="str">"【問い合わせ先】情報システム部"</span>),
+    (<span class="str">"user"</span>, <span class="str">"質問: {question}"</span>),
+])
+
+chain = prompt | llm | parser
+print(chain.invoke({<span class="str">"question"</span>: <span class="str">"会議室の予約方法がわかりません"</span>}))</pre>
+        </div>
+
+        <h3 class="label">
+          応用形：スタイルを差し替えられるプレースホルダー2つのテンプレート
+        </h3>
+        <div class="code">
+          <div class="code-head">
+            <span class="kind"><span class="swatch"></span>Python</span>
+            <button class="copy" type="button">コピー</button>
+          </div>
+          <pre>prompt = ChatPromptTemplate.from_messages([
+    (<span class="str">"system"</span>, <span class="str">"あなたは社内ヘルプデスクの担当者です。{style}で答えてください。"</span>),
+    (<span class="str">"user"</span>, <span class="str">"{question}"</span>),
+])
+
+chain = prompt | llm | parser
+print(chain.invoke({<span class="str">"style"</span>: <span class="str">"箇条書きで3点以内"</span>, <span class="str">"question"</span>: <span class="str">"在宅勤務の申請方法は？"</span>}))</pre>
+        </div>
+      </section>
+
+      <section class="block">
+        <h2>書き方に迷ったときのチェックリスト</h2>
+        <ul class="checklist">
+          <li><strong>誰向け</strong>の答えか書いたか（読み手）</li>
+          <li><strong>何について</strong>か絞ったか（対象）</li>
+          <li>
+            <strong>どのくらいの分量・形</strong>で欲しいか書いたか（分量・形式）
+          </li>
+          <li>
+            systemメッセージで<strong>役割と守備範囲</strong>を与えたか
+          </li>
+          <li><strong>わからないときの逃げ道</strong>を用意したか</li>
+          <li>型が大事なら、<strong>お手本を1つ</strong>見せたか</li>
+        </ul>
+      </section>
+
+      <section class="block">
+        <h2>補足</h2>
+        <ul class="notes">
+          <li>
+            テンプレートの文言は日本語のまま使えます（<code class="inline"
+              >gpt-4o-mini</code
+            >
+            は日本語の指示を問題なく理解します）。
+          </li>
+          <li>
+            プロンプトは「書いたら終わり」ではありません。<strong
+              >出力を見て少しずつ直す</strong
+            >
+            のが前提です。1回で完璧を狙わず、悪い例と良い例を比べながら調整してください。
+          </li>
+          <li>
+            ここに載せた型は、この後のRAG（検索した文書を差し込む）やエージェント（ツールの使い分け）でも、土台として登場します。
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <script>
+      document.querySelectorAll(".copy").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var pre = btn.closest(".code").querySelector("pre");
+          navigator.clipboard.writeText(pre.innerText).then(function () {
+            btn.textContent = "コピーしました";
+            btn.classList.add("done");
+            setTimeout(function () {
+              btn.textContent = "コピー";
+              btn.classList.remove("done");
+            }, 1600);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
