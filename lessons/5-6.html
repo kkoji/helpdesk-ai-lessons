@@ -647,8 +647,7 @@ rows = loader.load()           <span class="cmt"># 1行 = 1 Document</span>
           <div class="key">
             <span class="mark">🔑</span
             ><span
-              >FAQ一覧のような「1行が1つのQ&amp;A」のデータは、<strong>1行＝1チャンク</strong>
-              として扱うと相性が良く、この場合はチャンク分割を挟まず、そのままベクトル化して問題ありません。</span
+              >FAQのように1行が十分短く、意味的にも独立しているデータなら、<strong>チャンク分割を行わずそのままベクトル化</strong>して問題ありません。</span
             >
           </div>
         </div>
