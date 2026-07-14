@@ -1,0 +1,829 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>複数形式のドキュメント対応（PDF等） | 5-6</title>
+    <style>
+      :root {
+        --bg: #fcfdff;
+        --surface: #f2f6fc;
+        --surface-2: #eaf0f9;
+        --border: #dde6f2;
+        --text: #22303e;
+        --text-muted: #5b6b7c;
+        --text-faint: #8899aa;
+        --accent: #1f6feb;
+        --accent-ink: #0d47b8;
+        --accent-soft: #e3ebf6;
+        --alt: #0e7490;
+        --alt-soft: #e0f5f9;
+        --warn: #e6a817;
+        --warn-soft: #fff4cc;
+        --warn-ink: #7a5900;
+        --code-bg: #0d1b2a;
+        --code-text: #dce8f5;
+        --code-border: #1c3350;
+        --fill: #ffd479;
+        --shadow:
+          0 1px 2px rgba(20, 40, 70, 0.04),
+          0 8px 24px -12px rgba(20, 40, 70, 0.12);
+      }
+
+      :root[data-theme="dark"] {
+        --bg: #0b1420;
+        --surface: #101e2f;
+        --surface-2: #14263a;
+        --border: #24384f;
+        --text: #e6edf5;
+        --text-muted: #a9bbcd;
+        --text-faint: #7488a0;
+        --accent: #5b9dff;
+        --accent-ink: #bcd7ff;
+        --accent-soft: #16283f;
+        --alt: #4dd0e5;
+        --alt-soft: #0f2a30;
+        --warn: #e8b64a;
+        --warn-soft: #2c2408;
+        --warn-ink: #f3d38a;
+        --code-bg: #060d16;
+        --code-text: #cfe1f5;
+        --code-border: #1c3350;
+        --fill: #ffd479;
+        --shadow:
+          0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 28px -12px rgba(0, 0, 0, 0.55);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0b1420;
+          --surface: #101e2f;
+          --surface-2: #14263a;
+          --border: #24384f;
+          --text: #e6edf5;
+          --text-muted: #a9bbcd;
+          --text-faint: #7488a0;
+          --accent: #5b9dff;
+          --accent-ink: #bcd7ff;
+          --accent-soft: #16283f;
+          --alt: #4dd0e5;
+          --alt-soft: #0f2a30;
+          --warn: #e8b64a;
+          --warn-soft: #2c2408;
+          --warn-ink: #f3d38a;
+          --code-bg: #060d16;
+          --code-text: #cfe1f5;
+          --code-border: #1c3350;
+          --shadow:
+            0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 28px -12px rgba(0, 0, 0, 0.55);
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+        font-size: 17px;
+        line-height: 1.8;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .page {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 56px 24px 120px;
+      }
+
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: var(--accent);
+        text-transform: uppercase;
+        margin-bottom: 14px;
+      }
+      .eyebrow .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+
+      h1.title {
+        font-size: 34px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+        margin: 0 0 6px;
+        text-wrap: balance;
+      }
+
+      .subtitle {
+        color: var(--text-muted);
+        font-size: 16px;
+        margin: 0 0 32px;
+      }
+
+      .toolbox {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        background: var(--alt-soft);
+        border: 1px solid color-mix(in srgb, var(--alt) 35%, var(--border));
+        border-radius: 14px;
+        padding: 18px 22px;
+        margin: 0 0 44px;
+      }
+      .toolbox .icon {
+        font-size: 22px;
+        line-height: 1;
+        margin-top: 2px;
+      }
+      .toolbox .body {
+        color: var(--text);
+        font-size: 15.5px;
+        line-height: 1.75;
+      }
+      .toolbox strong {
+        color: var(--alt);
+      }
+
+      section.block {
+        margin: 0 0 52px;
+      }
+
+      h2 {
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+        font-size: 22px;
+        font-weight: 800;
+        margin: 0 0 18px;
+        padding-left: 16px;
+        border-left: 4px solid var(--accent);
+      }
+
+      h3.label {
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        color: var(--text-muted);
+        margin: 28px 0 10px;
+      }
+      h3.label:first-child {
+        margin-top: 0;
+      }
+
+      p {
+        margin: 0 0 14px;
+        color: var(--text);
+      }
+      .block > p:first-of-type {
+        margin-top: 0;
+      }
+
+      code.inline {
+        font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 1px 6px;
+        font-size: 0.88em;
+        color: var(--accent-ink);
+      }
+
+      /* --- パイプライン図 --- */
+      .flow {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 16px;
+      }
+      .flow .step {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 6px 14px;
+        font-size: 14.5px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .flow .step.swap {
+        background: var(--accent-soft);
+        border-color: var(--accent);
+        color: var(--accent-ink);
+      }
+      .flow .arrow {
+        color: var(--text-faint);
+        font-weight: 700;
+      }
+      .flow-note {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        font-size: 14px;
+        color: var(--text-muted);
+        margin: 0 0 16px;
+      }
+      .flow-note .chip {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 4px;
+        background: var(--accent-soft);
+        border: 1px solid var(--accent);
+        flex-shrink: 0;
+      }
+
+      /* --- 形式カード --- */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 22px 24px 24px;
+        margin: 0 0 22px;
+        scroll-margin-top: 20px;
+      }
+      .card-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 6px;
+      }
+      .card-icon {
+        font-size: 22px;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+      .card-title {
+        font-size: 19px;
+        font-weight: 800;
+      }
+      .card-why {
+        color: var(--text-muted);
+        font-size: 15px;
+        margin: 0 0 18px;
+      }
+
+      /* --- コードブロック（コピーボタン付き） --- */
+      .code {
+        background: var(--code-bg);
+        border: 1px solid var(--code-border);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        margin: 0 0 16px;
+      }
+      .code-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 9px 10px 9px 14px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+        border-bottom: 1px solid var(--code-border);
+      }
+      .code-head .kind {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .code-head .swatch {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+      .code.shell .code-head .swatch {
+        background: var(--alt);
+      }
+      .copy {
+        font: inherit;
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--code-text);
+        background: transparent;
+        border: 1px solid var(--code-border);
+        border-radius: 7px;
+        padding: 4px 11px;
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s;
+      }
+      .copy:hover {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: var(--accent);
+      }
+      .copy.done {
+        color: #7ee2a8;
+        border-color: #7ee2a8;
+      }
+      .code pre {
+        margin: 0;
+        padding: 14px 16px 16px;
+        overflow-x: auto;
+        font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: 14px;
+        line-height: 1.75;
+        color: var(--code-text);
+        white-space: pre;
+      }
+      .code .fill {
+        color: var(--fill);
+        font-weight: 600;
+      }
+      .code .cmt {
+        color: #7c93ad;
+      }
+      .code .kw {
+        color: #7fb3ff;
+      }
+      .code .str {
+        color: #9fe0b0;
+      }
+
+      /* --- callouts --- */
+      .tip,
+      .warn,
+      .key {
+        border-radius: 12px;
+        padding: 14px 18px;
+        margin: 0 0 16px;
+        font-size: 15px;
+        line-height: 1.7;
+        display: flex;
+        gap: 10px;
+      }
+      .tip {
+        background: var(--accent-soft);
+        color: var(--text);
+      }
+      .tip .mark {
+        color: var(--accent);
+      }
+      .warn {
+        background: var(--warn-soft);
+        color: var(--text);
+      }
+      .warn .mark {
+        color: var(--warn-ink);
+      }
+      .key {
+        background: var(--alt-soft);
+        border: 1px solid color-mix(in srgb, var(--alt) 35%, var(--border));
+        color: var(--text);
+      }
+      .key .mark {
+        color: var(--alt);
+      }
+      .tip .mark,
+      .warn .mark,
+      .key .mark {
+        flex-shrink: 0;
+        font-size: 16px;
+      }
+
+      /* --- 早見表 --- */
+      .tbl-wrap {
+        overflow-x: auto;
+        margin: 0 0 16px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 15px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 11px 16px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      th {
+        background: var(--surface-2);
+        color: var(--text-muted);
+        font-size: 12.5px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      td.fmt-name {
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      td code {
+        font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: 0.9em;
+        color: var(--accent-ink);
+      }
+
+      /* --- トラブルシューティング --- */
+      .qa {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .qa li {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--surface);
+        margin-bottom: 10px;
+        padding: 14px 18px;
+        font-size: 15.5px;
+      }
+      .qa .q {
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      .qa .a {
+        color: var(--text-muted);
+      }
+      .qa .a strong {
+        color: var(--text);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="eyebrow">
+        <span class="dot"></span>セクション5 RAGチャットボットの完成
+      </div>
+      <h1 class="title">複数形式のドキュメント対応（PDF等）</h1>
+      <p class="subtitle">
+        PDF・Word・CSVからテキストを取り出して、コースで作ったRAGパイプラインに流し込む方法
+      </p>
+
+      <div class="toolbox">
+        <div class="icon">📂</div>
+        <div class="body">
+          このコースの社内文書サンプルはテキストファイル（Markdown形式）ですが、実際の職場の文書は
+          <strong>PDF・Word・CSV</strong>
+          など様々です。それらに対応するための、コピペで使えるコード例集です。<br />
+          <strong>ブックマークしておいてください。</strong>自分の会社の文書でRAGを試すときに、このページに戻ってきてください。
+        </div>
+      </div>
+
+      <section class="block">
+        <h2>基本の考え方：入口だけ差し替える</h2>
+        <p>コースで作ったRAGの流れはこうでした。</p>
+        <div class="flow">
+          <span class="step swap">文書ファイル → テキスト</span>
+          <span class="arrow">→</span>
+          <span class="step">チャンク分割</span>
+          <span class="arrow">→</span>
+          <span class="step">ベクトル化</span>
+          <span class="arrow">→</span>
+          <span class="step">FAISS</span>
+        </div>
+        <p class="flow-note">
+          <span class="chip"></span
+          >青い部分（ファイル→テキスト）だけを各形式用に差し替えます
+        </p>
+        <p>
+          PDF等に対応するのに、チャンク分割から先を作り直す必要はありません。<strong>「ファイル→テキスト」の入口部分だけ</strong>
+          を各形式用のローダーに差し替えれば、あとは同じパイプラインがそのまま使えます。
+        </p>
+        <p>
+          LangChainには各形式用の <strong>Document Loader</strong>
+          が揃っています。多くは
+          <code class="inline">langchain-community</code>
+          パッケージに含まれるため、まず以下をインストールしてください。
+        </p>
+        <div class="code shell">
+          <div class="code-head">
+            <span class="kind"><span class="swatch"></span>ターミナル</span>
+            <button class="copy" type="button">コピー</button>
+          </div>
+          <pre>pip install langchain-community</pre>
+        </div>
+        <div class="tip">
+          <span class="mark">💡</span
+          ><span
+            >各ローダーが返すのは <code class="inline">Document</code>
+            オブジェクトのリストです。本文は
+            <code class="inline">.page_content</code>、ファイル名やページ番号などは
+            <code class="inline">.metadata</code> に入っています。</span
+          >
+        </div>
+      </section>
+
+      <section class="block">
+        <h2>形式別コード例</h2>
+
+        <!-- PDF -->
+        <div class="card" id="pdf">
+          <div class="card-head">
+            <span class="card-icon">📕</span
+            ><span class="card-title">PDF（PyPDFLoader）</span>
+          </div>
+          <p class="card-why">
+            社内規程・マニュアルで最も多い形式。1ページが1つの
+            <code class="inline">Document</code> になります。
+          </p>
+
+          <div class="code shell">
+            <div class="code-head">
+              <span class="kind"><span class="swatch"></span>ターミナル</span>
+              <button class="copy" type="button">コピー</button>
+            </div>
+            <pre>pip install pypdf</pre>
+          </div>
+
+          <div class="code">
+            <div class="code-head">
+              <span class="kind"><span class="swatch"></span>Python</span>
+              <button class="copy" type="button">コピー</button>
+            </div>
+            <pre><span class="kw">from</span> langchain_community.document_loaders <span class="kw">import</span> PyPDFLoader
+
+loader = PyPDFLoader(<span class="str">"就業規則.pdf"</span>)
+pages = loader.load()          <span class="cmt"># 1ページ = 1 Document のリスト</span>
+
+<span class="kw">print</span>(<span class="str">"ページ数:"</span>, len(pages))
+<span class="kw">print</span>(pages[0].page_content[:200])   <span class="cmt"># 1ページ目の本文</span>
+<span class="kw">print</span>(pages[0].metadata)             <span class="cmt"># {'source': '就業規則.pdf', 'page': 0, ...}</span></pre>
+          </div>
+
+          <div class="warn">
+            <span class="mark">⚠️</span
+            ><span
+              >PDFは見た目重視の形式のため、<strong>レイアウトによっては文字の順番が崩れる</strong>ことがあります（段組み・表・ヘッダーフッターなど）。取り出したテキストを必ず目視確認してください。</span
+            >
+          </div>
+          <div class="warn">
+            <span class="mark">⚠️</span
+            ><span
+              ><strong>スキャン画像のPDF</strong>（紙をスキャンしたもの）は文字データを持っていないため、この方法では読めません。OCR（光学文字認識）という別の処理が必要です（本コースの範囲外）。</span
+            >
+          </div>
+        </div>
+
+        <!-- Word -->
+        <div class="card" id="word">
+          <div class="card-head">
+            <span class="card-icon">📘</span
+            ><span class="card-title">Word（Docx2txtLoader）</span>
+          </div>
+          <p class="card-why">
+            通常はファイル全体で1つの <code class="inline">Document</code>
+            になります。
+          </p>
+
+          <div class="code shell">
+            <div class="code-head">
+              <span class="kind"><span class="swatch"></span>ターミナル</span>
+              <button class="copy" type="button">コピー</button>
+            </div>
+            <pre>pip install docx2txt</pre>
+          </div>
+
+          <div class="code">
+            <div class="code-head">
+              <span class="kind"><span class="swatch"></span>Python</span>
+              <button class="copy" type="button">コピー</button>
+            </div>
+            <pre><span class="kw">from</span> langchain_community.document_loaders <span class="kw">import</span> Docx2txtLoader
+
+loader = Docx2txtLoader(<span class="str">"経費精算マニュアル.docx"</span>)
+docs = loader.load()           <span class="cmt"># 通常はファイル全体で 1 Document</span>
+
+<span class="kw">print</span>(docs[0].page_content[:200])</pre>
+          </div>
+
+          <div class="warn">
+            <span class="mark">⚠️</span
+            ><span
+              >対応しているのは
+              <code class="inline">.docx</code>（新形式）です。古い
+              <code class="inline">.doc</code> は事前にWordで
+              <code class="inline">.docx</code> に保存し直してください。</span
+            >
+          </div>
+        </div>
+
+        <!-- CSV -->
+        <div class="card" id="csv">
+          <div class="card-head">
+            <span class="card-icon">📗</span
+            ><span class="card-title">CSV（CSVLoader）</span>
+          </div>
+          <p class="card-why">
+            1行が1つの <code class="inline">Document</code>
+            になります。追加インストールは不要です。
+          </p>
+
+          <div class="code">
+            <div class="code-head">
+              <span class="kind"><span class="swatch"></span>Python</span>
+              <button class="copy" type="button">コピー</button>
+            </div>
+            <pre><span class="kw">from</span> langchain_community.document_loaders <span class="kw">import</span> CSVLoader
+
+loader = CSVLoader(<span class="str">"faq一覧.csv"</span>, encoding=<span class="str">"utf-8"</span>)
+rows = loader.load()           <span class="cmt"># 1行 = 1 Document</span>
+
+<span class="kw">print</span>(rows[0].page_content)    <span class="cmt"># "質問: ○○\n回答: △△" のように列名付きで整形される</span></pre>
+          </div>
+
+          <div class="key">
+            <span class="mark">🔑</span
+            ><span
+              >FAQ一覧のような「1行が1つのQ&amp;A」のデータは、<strong>1行＝1チャンク</strong>
+              として扱うと相性が良く、この場合はチャンク分割を挟まず、そのままベクトル化して問題ありません。</span
+            >
+          </div>
+        </div>
+
+        <!-- テキスト/Markdown -->
+        <div class="card" id="text">
+          <div class="card-head">
+            <span class="card-icon">📙</span
+            ><span class="card-title">テキスト・Markdown（コースで使った方法）</span>
+          </div>
+          <p class="card-why">
+            参考までに、コースの方式です。標準ライブラリのみで、ローダーは不要です。
+          </p>
+
+          <div class="code">
+            <div class="code-head">
+              <span class="kind"><span class="swatch"></span>Python</span>
+              <button class="copy" type="button">コピー</button>
+            </div>
+            <pre><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+text = Path(<span class="str">"就業規則.md"</span>).read_text(encoding=<span class="str">"utf-8"</span>)</pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="block">
+        <h2>コースのパイプラインへのつなぎ込み</h2>
+        <p>
+          ローダーで取り出したテキストを、文書の読み込みとチャンク分割のハンズオンで作った関数に流し込む例です（PDFの場合）。
+        </p>
+
+        <div class="code">
+          <div class="code-head">
+            <span class="kind"><span class="swatch"></span>Python</span>
+            <button class="copy" type="button">コピー</button>
+          </div>
+          <pre><span class="cmt"># ① PDF からテキストを取り出す（全ページを連結）</span>
+loader = PyPDFLoader(<span class="str">"就業規則.pdf"</span>)
+pages = loader.load()
+doc_text = <span class="str">"\n"</span>.join(page.page_content <span class="kw">for</span> page <span class="kw">in</span> pages)
+
+<span class="cmt"># ② あとはコースと同じ：チャンク分割 → 出典付きチャンクへ</span>
+<span class="cmt">#    （split_into_sections / split_long / build_chunks_for_doc はハンズオンで作ったもの）</span>
+doc_meta = {<span class="str">"title"</span>: <span class="str">"就業規則"</span>, <span class="str">"department"</span>: <span class="str">"人事部"</span>}
+chunks = build_chunks_for_doc(<span class="str">"就業規則.pdf"</span>, doc_text, doc_meta)
+<span class="kw">print</span>(<span class="str">"チャンク数:"</span>, len(chunks))</pre>
+        </div>
+
+        <h3 class="label">チャンク分割の注意</h3>
+        <p>
+          コースの <code class="inline">split_into_sections</code> は
+          <code class="inline">##&nbsp;</code>
+          見出しを前提にしています。PDFやWordから取り出したテキストには
+          <code class="inline">##&nbsp;</code>
+          が無いことが多いため、次のどちらかで対応してください。
+        </p>
+        <p>
+          <strong>1. 前処理で見出しを付ける</strong> —
+          取り出したテキストの章タイトル行に
+          <code class="inline">##&nbsp;</code>
+          を付けて保存し直す（文書数が少なければ確実でおすすめ）
+        </p>
+        <p>
+          <strong>2. <code class="inline">split_long</code> だけで切る</strong> —
+          見出し分割を諦め、上限＋オーバーラップの再分割だけを使う（手軽だが、意味の切れ目は考慮されない）
+        </p>
+
+        <div class="code">
+          <div class="code-head">
+            <span class="kind"><span class="swatch"></span>Python</span>
+            <button class="copy" type="button">コピー</button>
+          </div>
+          <pre><span class="cmt"># 方法2の例：見出しなしで、上限400字＋オーバーラップ50字だけで切る</span>
+pieces = split_long(doc_text, MAX_CHUNK_CHARS, OVERLAP_CHARS)</pre>
+        </div>
+      </section>
+
+      <section class="block">
+        <h2>形式別の早見表</h2>
+        <div class="tbl-wrap">
+          <table>
+            <tr>
+              <th>形式</th>
+              <th>ローダー</th>
+              <th>追加インストール</th>
+              <th>単位</th>
+              <th>注意点</th>
+            </tr>
+            <tr>
+              <td class="fmt-name">PDF</td>
+              <td><code>PyPDFLoader</code></td>
+              <td><code>pypdf</code></td>
+              <td>1ページ=1件</td>
+              <td>レイアウト崩れ／スキャンPDF不可</td>
+            </tr>
+            <tr>
+              <td class="fmt-name">Word (.docx)</td>
+              <td><code>Docx2txtLoader</code></td>
+              <td><code>docx2txt</code></td>
+              <td>ファイル=1件</td>
+              <td>旧 .doc は非対応</td>
+            </tr>
+            <tr>
+              <td class="fmt-name">CSV</td>
+              <td><code>CSVLoader</code></td>
+              <td>不要</td>
+              <td>1行=1件</td>
+              <td>FAQ系は1行=1チャンクが好相性</td>
+            </tr>
+            <tr>
+              <td class="fmt-name">テキスト/MD</td>
+              <td><code>Path.read_text</code></td>
+              <td>不要</td>
+              <td>—</td>
+              <td>コースの方式</td>
+            </tr>
+          </table>
+        </div>
+        <div class="tip">
+          <span class="mark">📚</span
+          ><span
+            >この他にも、HTML・PowerPoint・Notion
+            など多数のローダーがあります。「langchain document
+            loaders」で公式ドキュメントを検索してみてください（種類は執筆時点で数百に及びます）。</span
+          >
+        </div>
+      </section>
+
+      <section class="block">
+        <h2>トラブルシューティング</h2>
+        <ul class="qa">
+          <li>
+            <div class="q">文字化けする</div>
+            <div class="a">
+              <code class="inline">encoding="utf-8"</code>
+              を指定する。それでも化ける場合は元ファイルの文字コード（Shift_JIS等）を確認。
+            </div>
+          </li>
+          <li>
+            <div class="q">PDFから何も取れない／記号だらけ</div>
+            <div class="a">
+              スキャン画像PDFの可能性。<strong>OCRが必要</strong>（本コース範囲外）。
+            </div>
+          </li>
+          <li>
+            <div class="q">表の中身がぐちゃぐちゃになる</div>
+            <div class="a">
+              PDFの表は苦手分野。重要な表は、<strong>手動でテキスト・CSVに書き起こす</strong>のが確実。
+            </div>
+          </li>
+          <li>
+            <div class="q">チャンクを見たら意味不明な断片だらけ</div>
+            <div class="a">
+              レクチャー「RAGの精度を高めるコツ」の大原則どおり、まず<strong>取り出したテキストを目視で確認</strong>。入口のテキストが崩れていれば、その先も全部崩れます。
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <script>
+      document.querySelectorAll(".copy").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var pre = btn.closest(".code").querySelector("pre");
+          navigator.clipboard.writeText(pre.innerText).then(function () {
+            btn.textContent = "コピーしました";
+            btn.classList.add("done");
+            setTimeout(function () {
+              btn.textContent = "コピー";
+              btn.classList.remove("done");
+            }, 1600);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
