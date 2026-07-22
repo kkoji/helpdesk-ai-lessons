@@ -70,8 +70,8 @@ export LAMBDA_ROLE_NAME=helpdesk-ai-lambda-role
 export LAYER_NAME=helpdesk-ai-deps
 echo ${S3_BUCKET}
 
-<span class="c"># OpenAI APIキーの設定（実行すると入力待ちになる。ご自身のキーを貼り付けて Enter。画面には表示されない）</span>
-read -s -p &quot;OpenAI APIキーを貼り付けて Enter: &quot; OPENAI_API_KEY &amp;&amp; export OPENAI_API_KEY &amp;&amp; echo &quot;&quot; &amp;&amp; echo &quot;APIキーを設定しました（${#OPENAI_API_KEY} 文字）&quot;</pre></div>
+<span class="c"># OpenAI APIキーの設定（入力待ちになったらキーを貼り付けて Enter。画面には表示されない。設定済みならそのまま使われる）</span>
+until [ -n &quot;${OPENAI_API_KEY}&quot; ]; do read -s -p &quot;OpenAI APIキーを貼り付けて Enter: &quot; OPENAI_API_KEY; echo &quot;&quot;; done; export OPENAI_API_KEY; echo &quot;APIキーを設定しました（${#OPENAI_API_KEY} 文字）&quot;</pre></div>
 </section>
 <section class="block">
 <h2><span class="num">2</span>作業用のS3バケットを作成</h2>
