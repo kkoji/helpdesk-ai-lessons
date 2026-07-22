@@ -74,8 +74,8 @@ export S3_BUCKET=helpdesk-ai-${ACCOUNT_ID}-${AWS_REGION}
 <span class="c"># 作業用のS3バケットを用意（前のラボで作成済みなら既存を使う。ラボを起動し直した場合はここで作成される）</span>
 aws s3 mb s3://${S3_BUCKET} --region ${AWS_REGION} 2&gt;/dev/null || echo &quot;既存バケットを使用: ${S3_BUCKET}&quot;
 
-<span class="c"># OpenAI APIキーの設定（入力待ちになったらキーを貼り付けて Enter。画面には表示されない。設定済みならそのまま使われる）</span>
-until [ -n &quot;${OPENAI_API_KEY}&quot; ]; do read -s -p &quot;OpenAI APIキーを貼り付けて Enter: &quot; OPENAI_API_KEY; echo &quot;&quot;; done; export OPENAI_API_KEY; echo &quot;APIキーを設定しました（${#OPENAI_API_KEY} 文字）&quot;</pre></div>
+<span class="c"># OpenAI APIキーの設定（キーを貼り付けて Enter。画面には表示されない）</span>
+read -s -p &quot;OpenAI APIキーを貼り付けて Enter: &quot; OPENAI_API_KEY; echo; export OPENAI_API_KEY</pre></div>
 </section>
 <section class="block">
 <h2><span class="num">2</span>社内文書8件とメタデータをS3にアップロード</h2>

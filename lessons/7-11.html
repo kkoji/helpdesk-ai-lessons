@@ -119,8 +119,8 @@ export LAYER_VERSION_ARN=$(aws lambda publish-layer-version \
 
 echo ${LAYER_VERSION_ARN}
 
-<span class="c"># OpenAI APIキーの設定（入力待ちになったらキーを貼り付けて Enter。画面には表示されない。設定済みならそのまま使われる）</span>
-until [ -n &quot;${OPENAI_API_KEY}&quot; ]; do read -s -p &quot;OpenAI APIキーを貼り付けて Enter: &quot; OPENAI_API_KEY; echo &quot;&quot;; done; export OPENAI_API_KEY; echo &quot;APIキーを設定しました（${#OPENAI_API_KEY} 文字）&quot;</pre></div>
+<span class="c"># OpenAI APIキーの設定（キーを貼り付けて Enter。画面には表示されない）</span>
+read -s -p &quot;OpenAI APIキーを貼り付けて Enter: &quot; OPENAI_API_KEY; echo; export OPENAI_API_KEY</pre></div>
 </section>
 <section class="block">
 <h2><span class="num">2</span>S3に4点セットを用意<span class="badge skip">スキップ可（環境が残っている場合）</span></h2>
@@ -288,7 +288,7 @@ aws dynamodb get-item \
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>cd ~/helpdesk-ai/aws
 <span class="c"># APIキーの入力待ちになったら、ご自身のキーを貼り付けて Enter（画面には表示されない）</span>
-until [ -n &quot;${OPENAI_API_KEY}&quot; ]; do read -s -p &quot;OpenAI APIキーを貼り付けて Enter: &quot; OPENAI_API_KEY; echo &quot;&quot;; done; export OPENAI_API_KEY; ./deploy.sh</pre></div>
+read -s -p &quot;OpenAI APIキーを貼り付けて Enter: &quot; OPENAI_API_KEY; echo; export OPENAI_API_KEY; ./deploy.sh</pre></div>
 </section>
 <div class="foot">「ゼロから作る社内ヘルプデスクAI」レクチャー補足資料 ｜ <a href="../index.html">補足資料の一覧へ</a></div>
 </div>
