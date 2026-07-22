@@ -117,7 +117,7 @@ read -s -p &quot;OpenAI APIキーを貼り付けて Enter: &quot; OPENAI_API_KEY
 aws s3 cp data/metadata.json s3://${S3_BUCKET}/metadata.json
 
 <span class="c"># 事前ビルド済みのインデックスと対応表を取得して、自分のバケットへ</span>
-<span class="c"># （前のラボで自分の手で構築したものと同じ内容。作り直しに数分かける必要はありません）</span>
+<span class="c"># （前のラボで自分の手で構築したものと同じ内容）</span>
 aws s3 cp s3://udemy-helpdesk-public/vector_index/index.faiss . --no-sign-request
 aws s3 cp s3://udemy-helpdesk-public/vector_index/chunks.json . --no-sign-request
 aws s3 cp index.faiss s3://${S3_BUCKET}/vector_index/index.faiss
