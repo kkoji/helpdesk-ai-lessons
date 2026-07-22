@@ -61,7 +61,7 @@ padding:1px 5px;font-size:.9em;}
 ・<b>ご自身のAWSアカウントの方</b>：前のラボまでのリソースが残っているため、「スキップ可」のブロックは飛ばせます。ただし<b>変数設定を含むブロック（土台の準備・URL取得）は毎回実行</b>してください（変数はターミナルのセッションを閉じると消えるため）。</div>
 <section class="block">
 <h2><span class="num">1</span>準備：ソースコードの取得・変数の設定・バケットの用意</h2>
-<p class="desc">リポジトリの取得・変数の設定・バケットの用意までをまとめて行います。<code>OPENAI_API_KEY</code> はご自身のキーに書き換えてください。</p>
+<p class="desc">リポジトリの取得・変数の設定・バケットの用意までをまとめて行います。最後にAPIキーの入力待ちになるので、ご自身のキーを貼り付けて Enter を押してください（画面には表示されません）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre><span class="c"># ソースコードを取得（取得済みの場合はエラーが表示されますが、そのまま進んでOK）</span>
 cd ~
@@ -71,10 +71,11 @@ cd ~/helpdesk-ai
 export AWS_REGION=us-east-1
 export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 export S3_BUCKET=helpdesk-ai-${ACCOUNT_ID}-${AWS_REGION}
-export OPENAI_API_KEY=sk-...   # 自分のキー
-
 <span class="c"># 作業用のS3バケットを用意（前のラボで作成済みなら既存を使う。ラボを起動し直した場合はここで作成される）</span>
-aws s3 mb s3://${S3_BUCKET} --region ${AWS_REGION} 2&gt;/dev/null || echo &quot;既存バケットを使用: ${S3_BUCKET}&quot;</pre></div>
+aws s3 mb s3://${S3_BUCKET} --region ${AWS_REGION} 2&gt;/dev/null || echo &quot;既存バケットを使用: ${S3_BUCKET}&quot;
+
+<span class="c"># OpenAI APIキーの設定（実行すると入力待ちになる。ご自身のキーを貼り付けて Enter。画面には表示されない）</span>
+read -s -p &quot;OpenAI APIキーを貼り付けて Enter: &quot; OPENAI_API_KEY &amp;&amp; export OPENAI_API_KEY &amp;&amp; echo &quot;&quot; &amp;&amp; echo &quot;APIキーを設定しました（${#OPENAI_API_KEY} 文字）&quot;</pre></div>
 </section>
 <section class="block">
 <h2><span class="num">2</span>社内文書8件とメタデータをS3にアップロード</h2>

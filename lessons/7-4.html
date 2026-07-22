@@ -61,16 +61,17 @@ padding:1px 5px;font-size:.9em;}
 ・<b>ご自身のAWSアカウントの方</b>：作ったリソースはそのまま残るため、削除しない限り、以後のラボで同じリソースを作り直す必要はありません。</div>
 <section class="block">
 <h2><span class="num">1</span>このラボで使う変数をまとめて設定（OPENAI_API_KEY は自分のキーに書き換える）</h2>
-<p class="desc">このラボで使う値を環境変数にまとめて設定します。<code>OPENAI_API_KEY</code> はご自身のキーに書き換えてください。最後の <code>echo</code> で設定できたことを確認します。</p>
+<p class="desc">このラボで使う値を環境変数にまとめて設定します。最後にAPIキーの入力待ちになるので、ご自身のキーを貼り付けて Enter を押してください（画面には表示されません）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>export AWS_REGION=us-east-1
 export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 export S3_BUCKET=helpdesk-ai-${ACCOUNT_ID}-${AWS_REGION}
 export LAMBDA_ROLE_NAME=helpdesk-ai-lambda-role
 export LAYER_NAME=helpdesk-ai-deps
-export OPENAI_API_KEY=sk-...
+echo ${S3_BUCKET}
 
-echo ${S3_BUCKET}</pre></div>
+<span class="c"># OpenAI APIキーの設定（実行すると入力待ちになる。ご自身のキーを貼り付けて Enter。画面には表示されない）</span>
+read -s -p &quot;OpenAI APIキーを貼り付けて Enter: &quot; OPENAI_API_KEY &amp;&amp; export OPENAI_API_KEY &amp;&amp; echo &quot;&quot; &amp;&amp; echo &quot;APIキーを設定しました（${#OPENAI_API_KEY} 文字）&quot;</pre></div>
 </section>
 <section class="block">
 <h2><span class="num">2</span>作業用のS3バケットを作成</h2>

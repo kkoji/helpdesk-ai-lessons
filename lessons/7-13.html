@@ -125,8 +125,8 @@ aws iam get-role --role-name helpdesk-ai-lambda-role 2&gt;&amp;1 | head -1</pre>
 
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>cd helpdesk-ai/aws
-export OPENAI_API_KEY=sk-...
-./deploy.sh    # S3→インデックス→DynamoDB→IAM→Layer→Lambda→API Gateway を一括構築</pre></div>
+<span class="c"># APIキーの入力待ちになったら、ご自身のキーを貼り付けて Enter（画面には表示されない）</span>
+read -s -p &quot;OpenAI APIキーを貼り付けて Enter: &quot; OPENAI_API_KEY &amp;&amp; export OPENAI_API_KEY &amp;&amp; ./deploy.sh    # S3→インデックス→DynamoDB→IAM→Layer→Lambda→API Gateway を一括構築</pre></div>
 </section>
 <div class="foot">「ゼロから作る社内ヘルプデスクAI」レクチャー補足資料 ｜ <a href="../index.html">補足資料の一覧へ</a></div>
 </div>
