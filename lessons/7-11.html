@@ -191,7 +191,7 @@ echo ${API_ENDPOINT}/chat</pre></div>
 </section>
 <section class="block">
 <h2><span class="num">5</span>会話履歴用のDynamoDBテーブルを作成し、TTLを有効化</h2>
-<p class="desc">会話履歴のロッカーとなるDynamoDBテーブルを作成し、TTL（期限札による自動削除）を有効化します。</p>
+<p class="desc">会話履歴を保存するDynamoDBテーブルを作成し、TTL（期限が過ぎた項目を自動削除する設定）を有効化します。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre><span class="c"># ① 会話履歴のテーブルを作成（キーは session_id の1本だけ）</span>
 aws dynamodb create-table \
@@ -203,7 +203,7 @@ aws dynamodb create-table \
 <span class="c"># テーブルが使える状態になるまで待つ</span>
 aws dynamodb wait table-exists --table-name helpdesk-sessions
 
-<span class="c"># ② TTL（期限札による自動削除）を有効化——属性名は ttl</span>
+<span class="c"># ② TTL（期限が過ぎた項目の自動削除）を有効化——属性名は ttl</span>
 aws dynamodb update-time-to-live \
   --table-name helpdesk-sessions \
   --time-to-live-specification &quot;Enabled=true, AttributeName=ttl&quot; 2&gt;/dev/null || echo &quot;TTLは設定済み&quot;</pre></div>
@@ -275,7 +275,7 @@ curl -X POST ${API_ENDPOINT}/chat \
   -H &#x27;Content-Type: application/json&#x27; \
   -d &#x27;{&quot;session_id&quot;: &quot;demo-001&quot;, &quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27;
 
-<span class="c"># ③ DynamoDBのロッカーを覗く：履歴と期限札が入っている</span>
+<span class="c"># ③ DynamoDBの中身を確認：会話履歴と ttl が入っている</span>
 aws dynamodb get-item \
   --table-name helpdesk-sessions \
   --key &#x27;{&quot;session_id&quot;: {&quot;S&quot;: &quot;demo-001&quot;}}&#x27; \

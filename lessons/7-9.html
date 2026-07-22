@@ -177,9 +177,9 @@ aws lambda add-permission \
 </section>
 <section class="block">
 <h2><span class="num">5</span>ルート（POST /chat、OPTIONS /chat）とCORSを設定</h2>
-<p class="desc"><code>POST /chat</code>（本番の窓口）と <code>OPTIONS /chat</code>（確認の電話係）の2ルートを作り、CORSを設定します。</p>
+<p class="desc"><code>POST /chat</code>（本番用）と <code>OPTIONS /chat</code>（CORSの事前確認用）の2ルートを作り、CORSを設定します。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
-<pre><span class="c"># ③ 統合IDを取得して、ルートを2本作る（POST=本番、OPTIONS=確認の電話係）</span>
+<pre><span class="c"># ③ 統合IDを取得して、ルートを2本作る（POST=本番用、OPTIONS=CORSの事前確認用）</span>
 export INTEGRATION_ID=$(aws apigatewayv2 get-integrations --api-id ${API_ID} \
   --query &quot;Items[0].IntegrationId&quot; --output text)
 
