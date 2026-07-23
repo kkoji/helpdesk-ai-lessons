@@ -138,7 +138,7 @@ aws s3 cp chunks.json s3://${S3_BUCKET}/vector_index/chunks.json</pre></div>
 </section>
 <section class="block">
 <h2><span class="num">3</span>公開済みチャットボットを再構築<span class="badge skip">スキップ可（環境が残っている場合）</span></h2>
-<p class="desc">公開済みのチャットボット（HTTP対応版Lambda＋API Gateway）を作り直します。</p>
+<p class="desc">公開済みのチャットボット（HTTP対応版Lambda＋API Gateway）を作り直します。ラボは起動のたびにリセットされるため、<strong>前のレクチャーの続きの状態をここで復元します</strong>。ここで作ったLambdaのコードを、手順⑦で完成版に入れ替えます（環境が残っている場合はスキップしてください）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>aws s3 cp s3://udemy-helpdesk-public/src/lab09_lambda_function.py . --no-sign-request
 zip function09.zip lab09_lambda_function.py
@@ -264,20 +264,20 @@ aws lambda wait function-updated --function-name helpdesk-lab09</pre></div>
 </section>
 <section class="block">
 <h2><span class="num">8</span>動作確認</h2>
-<p class="desc">動作確認です。①バリデーション（session_id必須）→②正しい呼び出し→③DynamoDBに履歴が入ったことを確認します。</p>
+<p class="desc">動作確認です。①バリデーション（session_id必須）→②正しい呼び出し→③DynamoDBに履歴が入ったことを確認します。<strong>結果が混ざらないよう、3つのブロックは1つずつコピーして実行し、そのつど結果を確認してください。</strong></p>
+<p class="desc">① <code>session_id</code> を付けずに呼び出します（必須チェックが働き、400エラーが返ります）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
-<pre><span class="c"># ① session_id 無しで呼ぶと…？</span>
-curl -X POST ${API_ENDPOINT}/chat \
+<pre>curl -X POST ${API_ENDPOINT}/chat \
   -H &#x27;Content-Type: application/json&#x27; \
-  -d &#x27;{&quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27;
-
-<span class="c"># ② session_id 付きで正しく呼ぶ</span>
-curl -X POST ${API_ENDPOINT}/chat \
+  -d &#x27;{&quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27;</pre></div>
+<p class="desc">② <code>session_id</code> を付けて正しく呼び出します（回答が返ります）。</p>
+<div class="codewrap"><button class="copy" type="button">コピー</button>
+<pre>curl -X POST ${API_ENDPOINT}/chat \
   -H &#x27;Content-Type: application/json&#x27; \
-  -d &#x27;{&quot;session_id&quot;: &quot;demo-001&quot;, &quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27;
-
-<span class="c"># ③ DynamoDBの中身を確認：会話履歴と ttl が入っている</span>
-aws dynamodb get-item \
+  -d &#x27;{&quot;session_id&quot;: &quot;demo-001&quot;, &quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27;</pre></div>
+<p class="desc">③ DynamoDBの中身を確認します（会話履歴と <code>ttl</code> が入っています）。</p>
+<div class="codewrap"><button class="copy" type="button">コピー</button>
+<pre>aws dynamodb get-item \
   --table-name helpdesk-sessions \
   --key &#x27;{&quot;session_id&quot;: {&quot;S&quot;: &quot;demo-001&quot;}}&#x27; \
   --query &quot;Item.{messages: messages.L[0], ttl: ttl}&quot;</pre></div>
