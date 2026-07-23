@@ -138,7 +138,7 @@ aws s3 cp chunks.json s3://${S3_BUCKET}/vector_index/chunks.json</pre></div>
 </section>
 <section class="block">
 <h2><span class="num">3</span>公開済みチャットボットを再構築<span class="badge skip">スキップ可（環境が残っている場合）</span></h2>
-<p class="desc">公開済みのチャットボット（HTTP対応版Lambda＋API Gateway）を作り直します。ラボは起動のたびにリセットされるため、<strong>前のレクチャーの続きの状態をここで復元します</strong>。ここで作ったLambdaのコードを、手順⑦で完成版に入れ替えます（環境が残っている場合はスキップしてください）。</p>
+<p class="desc">公開済みのチャットボット（HTTP対応版Lambda＋API Gateway）を作り直します。ラボは起動のたびにリセットされるため、<strong>前のレクチャーの続きの状態をここで復元します</strong>。ここで作ったLambdaのコードを、手順⑦で完成版に入れ替えます（環境が残っている場合はスキップできます。実行しても、作成済みのリソースはそのまま再利用されます）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>aws s3 cp s3://udemy-helpdesk-public/src/lab09_lambda_function.py . --no-sign-request
 zip function09.zip lab09_lambda_function.py
@@ -151,31 +151,36 @@ aws lambda create-function \
   --zip-file fileb://function09.zip \
   --layers ${LAYER_VERSION_ARN} \
   --timeout 60 --memory-size 512 \
-  --environment &quot;Variables={OPENAI_API_KEY=${OPENAI_API_KEY},CHAT_MODEL_ID=gpt-4o-mini,EMBED_MODEL_ID=text-embedding-3-small,S3_BUCKET=${S3_BUCKET}}&quot;
+  --environment &quot;Variables={OPENAI_API_KEY=${OPENAI_API_KEY},CHAT_MODEL_ID=gpt-4o-mini,EMBED_MODEL_ID=text-embedding-3-small,S3_BUCKET=${S3_BUCKET}}&quot; 2&gt;/dev/null || echo &quot;既存の関数を使用: helpdesk-lab09&quot;
 
 export LAMBDA_ARN=$(aws lambda get-function --function-name helpdesk-lab09 \
   --query Configuration.FunctionArn --output text)
 
-export API_ID=$(aws apigatewayv2 create-api \
-  --name helpdesk-lab09-api \
-  --protocol-type HTTP \
-  --target ${LAMBDA_ARN} \
-  --query ApiId --output text)
+<span class="c"># APIは既存があれば再利用（無いときだけ作成）</span>
+export API_ID=$(aws apigatewayv2 get-apis \
+  --query &quot;Items[?Name==&#x27;helpdesk-lab09-api&#x27;].ApiId | [0]&quot; --output text)
+if [ -z &quot;${API_ID}&quot; ] || [ &quot;${API_ID}&quot; = &quot;None&quot; ]; then
+  export API_ID=$(aws apigatewayv2 create-api \
+    --name helpdesk-lab09-api \
+    --protocol-type HTTP \
+    --target ${LAMBDA_ARN} \
+    --query ApiId --output text)
+fi
 
 aws lambda add-permission \
   --function-name helpdesk-lab09 \
   --statement-id apigateway-invoke \
   --action lambda:InvokeFunction \
   --principal apigateway.amazonaws.com \
-  --source-arn &quot;arn:aws:execute-api:${AWS_REGION}:${ACCOUNT_ID}:${API_ID}/*/*&quot;
+  --source-arn &quot;arn:aws:execute-api:${AWS_REGION}:${ACCOUNT_ID}:${API_ID}/*/*&quot; 2&gt;/dev/null || echo &quot;呼び出し許可は設定済み&quot;
 
 export INTEGRATION_ID=$(aws apigatewayv2 get-integrations --api-id ${API_ID} \
   --query &quot;Items[0].IntegrationId&quot; --output text)
 
 aws apigatewayv2 create-route --api-id ${API_ID} \
-  --route-key &quot;POST /chat&quot; --target integrations/${INTEGRATION_ID}
+  --route-key &quot;POST /chat&quot; --target integrations/${INTEGRATION_ID} 2&gt;/dev/null || echo &quot;ルートは作成済み: POST /chat&quot;
 aws apigatewayv2 create-route --api-id ${API_ID} \
-  --route-key &quot;OPTIONS /chat&quot; --target integrations/${INTEGRATION_ID}
+  --route-key &quot;OPTIONS /chat&quot; --target integrations/${INTEGRATION_ID} 2&gt;/dev/null || echo &quot;ルートは作成済み: OPTIONS /chat&quot;
 
 aws apigatewayv2 update-api --api-id ${API_ID} \
   --cors-configuration &quot;AllowOrigins=*,AllowMethods=POST,OPTIONS,AllowHeaders=Content-Type&quot;</pre></div>
