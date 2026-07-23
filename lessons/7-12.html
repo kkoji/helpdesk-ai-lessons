@@ -227,12 +227,14 @@ echo ${API_ENDPOINT}/chat</pre></div>
 </section>
 <section class="block">
 <h2><span class="num">5</span>マルチターン——同じsession_idで2連投して、会話がつながるか確認</h2>
-<p class="desc">マルチターンの確認。同じ <code>session_id</code> で2連投し、2問目の「それって？」が文脈を踏まえて解釈されることを確認します。</p>
+<p class="desc">マルチターンの確認。同じ <code>session_id</code> で2回質問し、2問目の「それって？」が文脈を踏まえて解釈されることを確認します。<strong>①と②は1つずつコピーして実行し、そのつど結果を確認してください</strong>（まとめて実行すると出力が続いて読みにくくなります）。</p>
+<p class="desc">① 1問目：有給休暇の日数をたずねます。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>curl -X POST ${API_ENDPOINT}/chat -H &#x27;Content-Type: application/json&#x27; \
-  -d &#x27;{&quot;session_id&quot;: &quot;demo-100&quot;, &quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27;
-
-curl -X POST ${API_ENDPOINT}/chat -H &#x27;Content-Type: application/json&#x27; \
+  -d &#x27;{&quot;session_id&quot;: &quot;demo-100&quot;, &quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27;</pre></div>
+<p class="desc">② 2問目：同じ <code>session_id</code> で「それって申請は必要ですか？」と聞きます。</p>
+<div class="codewrap"><button class="copy" type="button">コピー</button>
+<pre>curl -X POST ${API_ENDPOINT}/chat -H &#x27;Content-Type: application/json&#x27; \
   -d &#x27;{&quot;session_id&quot;: &quot;demo-100&quot;, &quot;message&quot;: &quot;それって申請は必要ですか？&quot;}&#x27;</pre></div>
 </section>
 <section class="block">
@@ -244,14 +246,14 @@ curl -X POST ${API_ENDPOINT}/chat -H &#x27;Content-Type: application/json&#x27; 
 </section>
 <section class="block">
 <h2><span class="num">7</span>3つのツールの使い分け</h2>
-<p class="desc">ツールの使い分けの確認。日付計算が要る質問と、文書に無い質問（エスカレーション）を送ります。</p>
+<p class="desc">ツールの使い分けの確認。<strong>①と②は1つずつコピーして実行し、そのつど結果を確認してください。</strong></p>
+<p class="desc">① 日付の計算が要る質問（文書の検索 → 日付の計算の連携）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
-<pre><span class="c"># 日付計算が要る質問（検索→計算の連携）</span>
-curl -X POST ${API_ENDPOINT}/chat -H &#x27;Content-Type: application/json&#x27; \
-  -d &#x27;{&quot;session_id&quot;: &quot;demo-100&quot;, &quot;message&quot;: &quot;経費精算の申請締切まで、あと何日ですか？&quot;}&#x27;
-
-<span class="c"># 文書に無い質問（エスカレーション）</span>
-curl -X POST ${API_ENDPOINT}/chat -H &#x27;Content-Type: application/json&#x27; \
+<pre>curl -X POST ${API_ENDPOINT}/chat -H &#x27;Content-Type: application/json&#x27; \
+  -d &#x27;{&quot;session_id&quot;: &quot;demo-100&quot;, &quot;message&quot;: &quot;経費精算の申請締切まで、あと何日ですか？&quot;}&#x27;</pre></div>
+<p class="desc">② 社内文書に無い質問（担当部署へのエスカレーション）。</p>
+<div class="codewrap"><button class="copy" type="button">コピー</button>
+<pre>curl -X POST ${API_ENDPOINT}/chat -H &#x27;Content-Type: application/json&#x27; \
   -d &#x27;{&quot;session_id&quot;: &quot;demo-100&quot;, &quot;message&quot;: &quot;社内VPNに接続できないエラーが出ています。どうすればいいですか？&quot;}&#x27;</pre></div>
 </section>
 <section class="block">
