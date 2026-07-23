@@ -123,8 +123,8 @@ echo ${LAYER_VERSION_ARN}
 read -s -p &quot;OpenAI APIキーを貼り付けて Enter: &quot; OPENAI_API_KEY; echo; export OPENAI_API_KEY</pre></div>
 </section>
 <section class="block">
-<h2><span class="num">2</span>S3に4点セットを用意<span class="badge skip">スキップ可（環境が残っている場合）</span></h2>
-<p class="desc">S3に4点セットを用意します（インデックスは事前ビルド済みファイルを取得）。</p>
+<h2><span class="num">2</span>社内文書・メタデータ・インデックス・チャンク対応表（4点セット）をS3に用意<span class="badge skip">スキップ可（環境が残っている場合）</span></h2>
+<p class="desc">上記4点セットをS3に用意します（インデックスは事前ビルド済みファイルを取得）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>aws s3 cp data/docs/ s3://${S3_BUCKET}/docs/ --recursive
 aws s3 cp data/metadata.json s3://${S3_BUCKET}/metadata.json
