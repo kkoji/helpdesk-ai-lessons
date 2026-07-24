@@ -113,7 +113,10 @@ padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit;}
 </tbody>
 </table>
 </div>
-<p>ただし、S3やCloudWatch Logsは「保存しているだけ」でも容量に応じて課金されます。<strong>放置して課金が続きやすいのは</strong>：S3の保存分・CloudWatch Logsのログ・（もし作っていれば）他リージョンの試験リソースです。だからこそ、以下のクリーンアップが大事です。</p>
+<p>ただし、S3やCloudWatch Logsは「保存しているだけ」でも容量に応じて課金されます。<strong>放置して課金が続きやすいのは、このS3の保存分とCloudWatch Logsのログ</strong>です。だからこそ、以下のクリーンアップが大事です。</p>
+<div class="note">
+このコースで作成するリソースは、すべて <code>us-east-1</code>（バージニア北部）リージョンに作られます。以下の削除コマンドも同じリージョンが対象です。
+</div>
 
 <div class="tip">
 <b>💡 Udemy AWSラボ環境の方：</b> ラボ環境はセッション終了時にリセットされるため、基本的に手動削除は不要です。ただしラボの利用時間を節約する意味でも、途中でやめる際は下記の削除を実行しておくと安心です。<strong>ご自身のAWSアカウントの方は、必ず削除を実施してください。</strong>
