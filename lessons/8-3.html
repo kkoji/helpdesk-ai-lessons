@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>実運用で使えるリファレンス集 ｜ ゼロから作る社内ヘルプデスクAI</title>
+<style>
+:root{--bg:#fcfdff;--surface:#f2f6fc;--border:#dde6f2;--text:#22303e;--muted:#5b6b7c;
+--accent:#1f6feb;--accent-soft:#e3ebf6;--warn:#e6a817;--warn-soft:#fff4cc;--warn-ink:#7a5900;
+--good:#3aa76d;--good-soft:#e6f7ea;--danger:#e05b5b;--danger-soft:#ffe9e9;--danger-ink:#8a2a2a;
+--star:#e0a91b;--code-bg:#0d1b2a;--code-text:#dce8f5;--code-border:#1c3350;}
+@media (prefers-color-scheme: dark){:root{--bg:#0b1420;--surface:#101e2f;--border:#24384f;
+--text:#e6edf5;--muted:#a9bbcd;--accent:#5b9dff;--accent-soft:#16283f;--warn:#e8b64a;
+--warn-soft:#2c2408;--warn-ink:#f3d38a;--good:#5bc98c;--good-soft:#102a1c;
+--danger:#f08a8a;--danger-soft:#2c1010;--danger-ink:#f3b0b0;--star:#f0c651;
+--code-bg:#060d16;--code-text:#cfe1f5;--code-border:#1c3350;}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+font-family:"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.85;}
+.page{max-width:820px;margin:0 auto;padding:48px 20px 110px;}
+.eyebrow{color:var(--accent);font-size:13px;font-weight:700;letter-spacing:.06em;}
+h1{font-size:26px;margin:6px 0 10px;line-height:1.45;}
+.lead{color:var(--muted);font-size:15px;margin:0 0 10px;}
+h2{font-size:19px;margin:44px 0 12px;padding-left:12px;border-left:4px solid var(--accent);line-height:1.5;}
+h3{font-size:15.5px;margin:26px 0 8px;color:var(--text);}
+p{font-size:14.5px;margin:10px 0;}
+a{color:var(--accent);}
+ul{padding-left:22px;}li{margin:7px 0;font-size:14.5px;}
+.toc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin:22px 0 8px;}
+.toc h4{margin:0 0 8px;font-size:13px;color:var(--muted);letter-spacing:.04em;}
+.toc ol{margin:0;padding-left:20px;}
+.toc li{margin:4px 0;font-size:14px;}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;
+border-radius:10px;border:1px solid var(--border);}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+th{background:var(--surface);color:var(--text);font-weight:700;font-size:13px;}
+tr:last-child td{border-bottom:none;}
+td code,th code{background:var(--accent-soft);border:none;border-radius:4px;padding:1px 6px;font-size:.92em;}
+.tablewrap{overflow-x:auto;}
+.star{color:var(--star);font-weight:700;}
+tr.pick td{background:var(--accent-soft);}
+.note{background:var(--warn-soft);border-left:5px solid var(--warn);color:inherit;
+border-radius:8px;padding:12px 16px;font-size:13.5px;margin:16px 0;}
+.note b{color:var(--warn-ink);}
+.tip{background:var(--good-soft);border-left:5px solid var(--good);border-radius:8px;padding:12px 16px;font-size:13.5px;margin:16px 0;}
+.tip b{color:var(--good);}
+code{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-size:.9em;}
+.note code,.tip code,p code,li code{background:var(--accent-soft);border:none;}
+.check{list-style:none;padding-left:4px;}
+.check>li{position:relative;padding-left:30px;margin:12px 0;font-size:14.5px;}
+.check>li::before{content:"";position:absolute;left:0;top:3px;width:18px;height:18px;
+border:2px solid var(--accent);border-radius:5px;background:var(--bg);}
+.kw{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:4px 18px 14px;margin:14px 0;}
+.foot{margin-top:56px;color:var(--muted);font-size:13px;border-top:1px solid var(--border);padding-top:16px;}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="eyebrow">セクション8 発展とまとめ</div>
+<h1>実運用で使えるリファレンス集</h1>
+<p class="lead">コース修了後、実務や自習で立ち返るための参照用ページです。ブックマークしてご活用ください。</p>
+
+<div class="tip">
+<b>💡 使い方</b> ── ここは「暗記するもの」ではなく「必要になったときに開くもの」です。技術選定に迷ったとき、本番化の直前、次に何を学ぶか決めたいときに戻ってきてください。
+</div>
+
+<div class="toc">
+<h4>このページの内容</h4>
+<ol>
+<li><a href="#compare">① 技術選定の比較早見表</a></li>
+<li><a href="#checklist">② 本番化チェックリスト</a></li>
+<li><a href="#keywords">③ 発展トピックの学習キーワード集</a></li>
+<li><a href="#docs">④ 公式ドキュメントの歩き方</a></li>
+<li><a href="#source">コースのソースコード</a></li>
+</ol>
+</div>
+
+<h2 id="compare">① 技術選定の比較早見表</h2>
+<p>コースで採用した構成（<span class="star">★</span>）と、状況が変わったときの代替候補です。「正解」ではなく「出発点」として使ってください。</p>
+
+<h3>ベクトルDB</h3>
+<div class="tablewrap">
+<table>
+<thead><tr><th>選択肢</th><th>タイプ</th><th>向いている状況</th></tr></thead>
+<tbody>
+<tr class="pick"><td><span class="star">★</span> FAISS</td><td>ライブラリ型</td><td>学習〜中規模／インデックスをファイルで持ち運ぶ構成（S3＋Lambda等）</td></tr>
+<tr><td>Chroma</td><td>ライブラリ型</td><td>手軽な開発・プロトタイプ／メタデータでの絞り込みが欲しい</td></tr>
+<tr><td>Pinecone 等（クラウド型）</td><td>マネージド</td><td>大規模データ／常時更新／運用を任せたい</td></tr>
+<tr><td>pgvector</td><td>RDB拡張</td><td>すでにPostgreSQLを運用している組織</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>LLM実行の場所</h3>
+<div class="tablewrap">
+<table>
+<thead><tr><th>選択肢</th><th>向いている状況</th></tr></thead>
+<tbody>
+<tr class="pick"><td><span class="star">★</span> OpenAI API 直接</td><td>手軽・高品質・従量課金で始めたい（本コースの方針）</td></tr>
+<tr><td>クラウド経由のLLM（各社のマネージドAI）</td><td>既存クラウドの請求・権限管理に統合したい組織</td></tr>
+<tr><td>ローカル／自社ホスティング</td><td>データを外部に出せない要件（運用コスト・品質とのトレードオフ大）</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>実行基盤</h3>
+<div class="tablewrap">
+<table>
+<thead><tr><th>選択肢</th><th>向いている状況</th></tr></thead>
+<tbody>
+<tr class="pick"><td><span class="star">★</span> Lambda（サーバーレス）</td><td>散発的なアクセス／運用の手間を最小に</td></tr>
+<tr><td>コンテナ（ECS／Fargate等）</td><td>常時高トラフィック／長時間処理／依存が巨大</td></tr>
+<tr><td>常時起動サーバー（EC2等）</td><td>特殊な要件（GPU等）／既存運用に乗せる</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>会話履歴の保存先</h3>
+<div class="tablewrap">
+<table>
+<thead><tr><th>選択肢</th><th>向いている状況</th></tr></thead>
+<tbody>
+<tr class="pick"><td><span class="star">★</span> DynamoDB＋TTL</td><td>サーバーレス構成・キー1本のシンプルな読み書き</td></tr>
+<tr><td>RDB（PostgreSQL等）</td><td>履歴の分析・検索・他データとの結合が必要</td></tr>
+<tr><td>Redis等のキャッシュ</td><td>超低レイテンシが必要／揮発してよい短期記憶</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="checklist">② 本番化チェックリスト</h2>
+<p>セキュリティの回でまとめた本番化の要点です。ご自身のAIを社内に出す前に、ひととおり確認してください。</p>
+<ul class="check">
+<li><strong>秘密情報</strong>：キーはコード・Gitに無い／環境変数 or Secrets Manager／不要キーはRevoke済み</li>
+<li><strong>最小権限</strong>：IAMポリシーに <code>*</code> が無い／サービスごとに必要な操作だけ／ルートユーザーを日常使いしない</li>
+<li><strong>公開範囲</strong>：CORSを自社ドメインに限定／APIに認証（簡易トークン／IAM認証／Cognito等）</li>
+<li><strong>LLMリスク</strong>：「読ませる＝送る」の確認（機密区分・提供元のデータポリシー）／プロンプトインジェクションへの備え（防御を過信しない・ツール権限を絞る・出力を無条件に信用しない）</li>
+<li><strong>コスト</strong>：AWS Budgetsのアラート設定／OpenAIの自動チャージ設定確認／不要リソースの削除（<a href="7-13.html">コスト管理とクリーンアップの回</a>を参照）</li>
+<li><strong>運用</strong>：テスト質問セットで回帰確認する習慣／CloudWatch Logsでエラーを確認できる</li>
+</ul>
+
+<h2 id="keywords">③ 発展トピックの学習キーワード集</h2>
+<p>検索エンジンや公式ドキュメントで調べるときの「入口の言葉」です。</p>
+
+<div class="kw">
+<h3>Advanced RAG（検索を極める）</h3>
+<ul>
+<li><code>Re-ranking / リランキング</code>（二段選抜）</li>
+<li><code>ハイブリッド検索 / hybrid search</code>・<code>BM25</code>（キーワード検索の代表的手法）</li>
+<li><code>クエリ書き換え / query rewriting</code>・<code>HyDE</code></li>
+<li><code>チャンク戦略 / chunking strategy</code>・<code>親子チャンク / parent document retriever</code></li>
+</ul>
+</div>
+
+<div class="kw">
+<h3>エージェント（チームにする）</h3>
+<ul>
+<li><code>LangGraph multi-agent</code></li>
+<li><code>ReAct</code>（推論と行動を繰り返すエージェントの基本パターン。本コースの「判断→行動→観察」の原型）</li>
+<li><code>Function Calling / Tool Use</code></li>
+<li><code>Human-in-the-loop</code>（人間の承認を挟む設計。エスカレーションの発展形）</li>
+</ul>
+</div>
+
+<div class="kw">
+<h3>評価（測り続ける）</h3>
+<ul>
+<li><code>RAG evaluation / RAG 評価</code></li>
+<li><code>LLM-as-a-Judge</code>（LLMに採点させる）</li>
+<li><code>忠実性 / faithfulness</code>・<code>関連性 / relevancy</code>（RAG評価の代表的観点）</li>
+</ul>
+</div>
+
+<div class="kw">
+<h3>運用・その他</h3>
+<ul>
+<li><code>プロンプトインジェクション対策</code></li>
+<li><code>LLM オブザーバビリティ / observability</code>（トレース・ログの可視化）</li>
+<li><code>セマンティックキャッシュ</code>（同じ質問への回答を再利用）</li>
+</ul>
+</div>
+
+<h2 id="docs">④ 公式ドキュメントの歩き方</h2>
+<div class="tablewrap">
+<table>
+<thead><tr><th>調べたいこと</th><th>行き先</th></tr></thead>
+<tbody>
+<tr><td>LangChain／LangGraph のAPI・使い方</td><td>LangChain公式ドキュメント（<code>python.langchain.com</code>）・LangGraphドキュメント</td></tr>
+<tr><td>OpenAI APIの仕様・モデル・料金</td><td>OpenAIプラットフォームのドキュメントと料金ページ（<code>platform.openai.com</code>）</td></tr>
+<tr><td>Lambda／API Gateway／S3／DynamoDB</td><td>AWS公式ドキュメント。まず「開発者ガイド」の入門章から</td></tr>
+<tr><td>FAISS</td><td>FAISSのGitHubリポジトリのwiki</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>歩き方のコツ</h3>
+<ol>
+<li><strong>バージョンに注意</strong>：LangChain系は進化が速く、古い記事のコードは動かないことがあります。公式ドキュメント→リリースノートの順で確認を。</li>
+<li><strong>「動く最小コード」を先に確保</strong>：本コースのリポジトリ（<code>helpdesk-ai</code>）は動作する全体像として機能します。新技術は、まずこの上に小さく足して試すのが安全です。</li>
+<li><strong>エラー文で検索</strong>：エラーメッセージの固有部分（クラス名・エラーコード）をそのまま検索するのが最短路です。</li>
+</ol>
+
+<h2 id="source">コースのソースコード</h2>
+<div class="tablewrap">
+<table>
+<thead><tr><th>リポジトリ</th><th>内容</th></tr></thead>
+<tbody>
+<tr><td><a href="https://github.com/kkoji/helpdesk-ai" target="_blank" rel="noopener"><code>kkoji/helpdesk-ai</code></a></td><td>API本体（Lambda一式＋社内文書サンプル＋完成版ノートブック）</td></tr>
+<tr><td><a href="https://github.com/kkoji/helpdesk-ai-ui" target="_blank" rel="noopener"><code>kkoji/helpdesk-ai-ui</code></a></td><td>チャットUI（<code>index.html</code> 単体）</td></tr>
+</tbody>
+</table>
+</div>
+<div class="note">
+リポジトリのURLは、Udemyのコースリソースセクションにも掲載しています。
+</div>
+
+<div class="foot">「ゼロから作る社内ヘルプデスクAI」レクチャー補足資料 ｜ <a href="../index.html">補足資料の一覧へ</a></div>
+</div>
+</body>
+</html>
