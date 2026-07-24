@@ -93,14 +93,14 @@ padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit;}
 <table>
 <thead><tr><th>項目</th><th>使う場面</th><th>目安</th></tr></thead>
 <tbody>
-<tr><td><code>gpt-4o-mini</code>（チャット）</td><td>質問への回答・エージェントの判断</td><td><span class="amt">1質問あたり1円未満</span></td></tr>
-<tr><td><code>text-embedding-3-small</code></td><td>インデックス構築（1回）＋質問のベクトル化</td><td><span class="amt">構築1回で1円未満</span></td></tr>
+<tr><td><code>gpt-4o-mini</code>（チャット）</td><td>質問への回答・エージェントの判断</td><td><span class="amt">多くの場合1質問あたり1円未満</span></td></tr>
+<tr><td><code>text-embedding-3-small</code></td><td>インデックス構築（1回）＋質問のベクトル化</td><td><span class="amt">多くの場合1回あたり1円未満</span></td></tr>
 </tbody>
 </table>
 </div>
-<p>コースの全ハンズオン・全ラボを実行しても、<strong>合計で数ドル以内</strong>に収まる見込みです。</p>
+<p>実際の金額は、文書量やプロンプトの長さ、その時点の料金設定によって変わります。とはいえこのコース程度のデータ量であれば、<strong>ひととおり試しても数ドル以内</strong>に収まるケースがほとんどです。</p>
 
-<h3>AWS（サーバーレスなので「使った分だけ」）</h3>
+<h3>AWS（サーバーレス中心なので、多くは「使った分だけ」）</h3>
 <div class="tablewrap">
 <table>
 <thead><tr><th>サービス</th><th>課金の考え方</th><th>このコースの規模での目安</th></tr></thead>
@@ -113,7 +113,7 @@ padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit;}
 </tbody>
 </table>
 </div>
-<p><strong>放置して課金が続きやすいのは</strong>：S3の保存分・CloudWatch Logsのログ・（もし作っていれば）他リージョンの試験リソースです。だからこそ、以下のクリーンアップが大事です。</p>
+<p>ただし、S3やCloudWatch Logsは「保存しているだけ」でも容量に応じて課金されます。<strong>放置して課金が続きやすいのは</strong>：S3の保存分・CloudWatch Logsのログ・（もし作っていれば）他リージョンの試験リソースです。だからこそ、以下のクリーンアップが大事です。</p>
 
 <div class="tip">
 <b>💡 Udemy AWSラボ環境の方：</b> ラボ環境はセッション終了時にリセットされるため、基本的に手動削除は不要です。ただしラボの利用時間を節約する意味でも、途中でやめる際は下記の削除を実行しておくと安心です。<strong>ご自身のAWSアカウントの方は、必ず削除を実施してください。</strong>
@@ -198,7 +198,7 @@ aws iam get-role --role-name helpdesk-ai-lambda-role 2&gt;&amp;1 | head -1</pre>
 
 <h2 id="habit">日頃のコスト管理のヒント</h2>
 <ul>
-<li><strong>AWS Budgets</strong>：「月◯ドルを超えたらメール通知」という予算アラートを無料で設定できます。個人アカウントで学習を続けるなら、まず最初に設定しておくのがおすすめです。</li>
+<li><strong>AWS Budgets</strong>：「月◯ドルを超えたらメール通知」という予算アラートを設定できます。少数のBudgetsであれば通常は無料枠内で利用できます。個人アカウントで学習を続けるなら、まず最初に設定しておくのがおすすめです。</li>
 <li><strong>請求ダッシュボード</strong>：AWSコンソールの「Billing and Cost Management」で、サービス別の利用額をいつでも確認できます。</li>
 <li><strong>OpenAI Usage</strong>：OpenAIプラットフォームの Usage 画面で、日別・モデル別の利用量を確認できます。</li>
 </ul>
