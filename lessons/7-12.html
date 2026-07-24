@@ -259,7 +259,6 @@ echo ${API_ENDPOINT}/chat</pre></div>
 <section class="block">
 <h2><span class="num">8</span>チャットUIをブラウザで開く<span class="badge local">ローカルPCで実行</span></h2>
 <p class="desc">チャットUIをブラウザで開きます。<strong>このブロックだけ、ご自身のPCのターミナルで実行</strong>してください。<code>index.html</code> をダブルクリック（file://）で開くとCORSで必ず失敗します。</p>
-<p class="desc"><strong>画面を開いたあとの入力</strong>：① <strong>エンドポイントURL</strong>＝手順④で表示された <code>https://….amazonaws.com/chat</code>（末尾の <code>/chat</code> まで含めて貼り付け。手順④を再実行すればいつでも表示できます）／② <strong>セッションID</strong>＝会話を区別するための任意の文字列（例: <code>demo-300</code>）。同じIDのままなら会話が続き、変えると新しい会話として始まります。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>git clone https://github.com/kkoji/helpdesk-ai-ui.git
 cd helpdesk-ai-ui
@@ -267,6 +266,14 @@ python3 -m http.server 8000
 <span class="c">#    Windows は python -m http.server 8000</span>
 <span class="c"># → ブラウザで http://localhost:8000/index.html を開く</span>
 <span class="c"># ※ index.html をダブルクリック（file://）で開くと、CORSにより必ず失敗します</span></pre></div>
+<p class="desc"><strong>（CloudShellで実行）</strong>画面に貼り付けるエンドポイントURLを表示します。CloudShellのタブに戻ってこのブロックを実行し、出力された <code>https://….amazonaws.com/chat</code> をコピーしてください。</p>
+<div class="codewrap"><button class="copy" type="button">コピー</button>
+<pre>export API_ID=$(aws apigatewayv2 get-apis \
+  --query &quot;Items[?Name==&#x27;helpdesk-lab09-api&#x27;].ApiId | [0]&quot; --output text)
+export API_ENDPOINT=$(aws apigatewayv2 get-api --api-id ${API_ID} \
+  --query ApiEndpoint --output text)
+echo ${API_ENDPOINT}/chat</pre></div>
+<p class="desc"><strong>画面に入力する2つ</strong>：① <strong>エンドポイントURL</strong>＝上のブロックで表示された <code>https://….amazonaws.com/chat</code>（末尾の <code>/chat</code> まで含めて貼り付け）／② <strong>セッションID</strong>＝会話を区別するための任意の文字列（例: <code>demo-300</code>）。同じIDのままなら会話が続き、変えると新しい会話として始まります。</p>
 </section>
 <div class="foot">「ゼロから作る社内ヘルプデスクAI」レクチャー補足資料 ｜ <a href="../index.html">補足資料の一覧へ</a></div>
 </div>
