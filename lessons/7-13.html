@@ -67,7 +67,7 @@ padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit;}
 <p class="lead">このセクションで作成したAWSリソースの<strong>費用の目安</strong>と、<strong>後片付け（リソース削除）</strong>の手順をまとめた参照用ページです。</p>
 
 <div class="note">
-ご自身のAWSアカウントで進めた方は、学習が終わったリソースを放置すると、少額とはいえ課金が続きます。動作確認が済んだら、このページの手順でクリーンアップしてください（<strong>UdemyのAWSラボ環境で進めた方は、費用がかからず自動でリセットされるため、この作業は不要です</strong>）。もう一度作りたくなったら、<code>deploy.sh</code> を実行すればいつでも数分で再構築できます。
+ご自身のAWSアカウントで進めた方は、学習が終わったリソースを放置すると、少額とはいえ課金が続きます。動作確認が済んだら、このページの手順でクリーンアップしてください（<strong>UdemyのAWSラボ環境で進めた方は、費用がかからず自動でリセットされるため、この作業は不要です</strong>）。もう一度作りたくなったら、<a href="https://github.com/kkoji/helpdesk-ai/blob/main/aws/deploy.sh" target="_blank" rel="noopener"><code>deploy.sh</code></a> を実行すればいつでも数分で再構築できます。
 </div>
 
 <div class="toc">
@@ -126,20 +126,20 @@ padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit;}
 <h2 id="cleanup">クリーンアップ手順</h2>
 <p>このコースでは2通りの作り方をしたので、削除も2通りに分かれます。どちらで作ったか分からない場合は、<strong>A・Bの両方を実行しても安全です</strong>（存在しないリソースの削除はスキップされます）。各コードブロックは右上の<strong>「コピー」ボタン</strong>でコピーできます。</p>
 
-<h3>A. 各ラボで手作りしたリソースの削除</h3>
-<p>このセクションのラボで手作りしたリソースは、以下のコマンドでまとめて削除できます。<strong>CloudShellでの実行を推奨</strong>します（bash構文を含むため、WindowsのPowerShellでは動きません）。</p>
+<h3>A. コマンドで個別に構築したリソースの削除</h3>
+<p>このセクションの各レクチャーで、コマンドを一つずつ実行して構築したリソースは、以下のコマンドでまとめて削除できます（<code>deploy.sh</code> で一括構築した場合はBへ）。<strong>CloudShellでの実行を推奨</strong>します（bash構文を含むため、WindowsのPowerShellでは動きません）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
-<pre><span class="c"># 変数（ラボと同じもの）</span>
+<pre><span class="c"># 変数（構築時と同じもの）</span>
 export AWS_REGION=us-east-1
 export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 export S3_BUCKET=helpdesk-ai-${ACCOUNT_ID}-${AWS_REGION}
 
-<span class="c"># ① API Gateway（チャットボット公開のラボで作成）</span>
+<span class="c"># ① API Gateway（チャットボットを公開したレクチャーで作成）</span>
 API_ID=$(aws apigatewayv2 get-apis \
   --query &quot;Items[?Name==&#x27;helpdesk-lab09-api&#x27;].ApiId | [0]&quot; --output text)
 [ -n &quot;$API_ID&quot; ] &amp;&amp; [ &quot;$API_ID&quot; != &quot;None&quot; ] &amp;&amp; aws apigatewayv2 delete-api --api-id ${API_ID}
 
-<span class="c"># ② Lambda関数（各ラボで作成した3つ）</span>
+<span class="c"># ② Lambda関数（各レクチャーで作成した3つ）</span>
 for FN in helpdesk-lab07 helpdesk-lab08b helpdesk-lab09; do
   aws lambda delete-function --function-name ${FN} 2&gt;/dev/null &amp;&amp; echo &quot;削除: ${FN}&quot;
 done
@@ -155,7 +155,7 @@ for V in $(aws lambda list-layer-versions --layer-name helpdesk-ai-deps \
   aws lambda delete-layer-version --layer-name helpdesk-ai-deps --version-number ${V}
 done
 
-<span class="c"># ⑤ DynamoDBテーブル（会話履歴のラボで作成）</span>
+<span class="c"># ⑤ DynamoDBテーブル（会話履歴のレクチャーで作成）</span>
 aws dynamodb delete-table --table-name helpdesk-sessions 2&gt;/dev/null
 
 <span class="c"># ⑥ IAMロール（インラインポリシー→管理ポリシーの順に外してから削除）</span>
@@ -169,11 +169,11 @@ aws iam delete-role --role-name helpdesk-ai-lambda-role 2&gt;/dev/null
 aws s3 rb s3://${S3_BUCKET} --force</pre></div>
 
 <div class="danger">
-<b>⚠️ ⑦のバケット削除は、中身（文書・インデックス・Layer zip）ごと消え、取り消せません。</b> もう一度作る場合は、インデックス構築のラボの手順（または <code>deploy.sh</code>）で再構築できます。
+<b>⚠️ ⑦のバケット削除は、中身（文書・インデックス・Layer zip）ごと消え、取り消せません。</b> もう一度作る場合は、インデックスを構築したレクチャーの手順（または <code>deploy.sh</code>）で再構築できます。
 </div>
 
 <h3>B. deploy.sh で一括構築した場合の削除（destroy.sh）</h3>
-<p><code>deploy.sh</code> で構築した環境（関数名 <code>helpdesk-ai-handler</code>、API名 <code>helpdesk-ai-api</code> などの正式名）は、リポジトリ付属の削除スクリプトで一括削除できます。</p>
+<p><a href="https://github.com/kkoji/helpdesk-ai/blob/main/aws/deploy.sh" target="_blank" rel="noopener"><code>deploy.sh</code></a> で構築した環境（関数名 <code>helpdesk-ai-handler</code>、API名 <code>helpdesk-ai-api</code> などの正式名）は、リポジトリ付属の削除スクリプト <a href="https://github.com/kkoji/helpdesk-ai/blob/main/aws/destroy.sh" target="_blank" rel="noopener"><code>destroy.sh</code></a> で一括削除できます（どちらも <code>helpdesk-ai</code> リポジトリの <code>aws/</code> にあります）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>cd helpdesk-ai/aws
 ./destroy.sh          <span class="c"># 削除対象を表示し、確認プロンプト（yes入力）の後に削除</span>
