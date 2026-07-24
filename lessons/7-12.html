@@ -231,18 +231,18 @@ echo ${API_ENDPOINT}/chat</pre></div>
 <p class="desc">① 1問目：有給休暇の日数をたずねます。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>curl -X POST ${API_ENDPOINT}/chat -H &#x27;Content-Type: application/json&#x27; \
-  -d &#x27;{&quot;session_id&quot;: &quot;demo-100&quot;, &quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27;</pre></div>
+  -d &#x27;{&quot;session_id&quot;: &quot;demo-100&quot;, &quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27; -w &quot;\n&quot;</pre></div>
 <p class="desc">② 2問目：同じ <code>session_id</code> で「それって申請は必要ですか？」と聞きます。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>curl -X POST ${API_ENDPOINT}/chat -H &#x27;Content-Type: application/json&#x27; \
-  -d &#x27;{&quot;session_id&quot;: &quot;demo-100&quot;, &quot;message&quot;: &quot;それって申請は必要ですか？&quot;}&#x27;</pre></div>
+  -d &#x27;{&quot;session_id&quot;: &quot;demo-100&quot;, &quot;message&quot;: &quot;それって申請は必要ですか？&quot;}&#x27; -w &quot;\n&quot;</pre></div>
 </section>
 <section class="block">
 <h2><span class="num">6</span>セッションの分離——別のsession_idで、いきなり「それって？」と聞くと…</h2>
 <p class="desc">セッション分離の確認。別の <code>session_id</code> では文脈が引き継がれないことを確認します。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>curl -X POST ${API_ENDPOINT}/chat -H &#x27;Content-Type: application/json&#x27; \
-  -d &#x27;{&quot;session_id&quot;: &quot;demo-200&quot;, &quot;message&quot;: &quot;それって申請は必要ですか？&quot;}&#x27;</pre></div>
+  -d &#x27;{&quot;session_id&quot;: &quot;demo-200&quot;, &quot;message&quot;: &quot;それって申請は必要ですか？&quot;}&#x27; -w &quot;\n&quot;</pre></div>
 </section>
 <section class="block">
 <h2><span class="num">7</span>3つのツールの使い分け</h2>
@@ -250,11 +250,11 @@ echo ${API_ENDPOINT}/chat</pre></div>
 <p class="desc">① 日付の計算が要る質問（文書の検索 → 日付の計算の連携）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>curl -X POST ${API_ENDPOINT}/chat -H &#x27;Content-Type: application/json&#x27; \
-  -d &#x27;{&quot;session_id&quot;: &quot;demo-100&quot;, &quot;message&quot;: &quot;経費精算の申請締切まで、あと何日ですか？&quot;}&#x27;</pre></div>
+  -d &#x27;{&quot;session_id&quot;: &quot;demo-100&quot;, &quot;message&quot;: &quot;経費精算の申請締切まで、あと何日ですか？&quot;}&#x27; -w &quot;\n&quot;</pre></div>
 <p class="desc">② 社内文書に無い質問（担当部署へのエスカレーション）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>curl -X POST ${API_ENDPOINT}/chat -H &#x27;Content-Type: application/json&#x27; \
-  -d &#x27;{&quot;session_id&quot;: &quot;demo-100&quot;, &quot;message&quot;: &quot;社内VPNに接続できないエラーが出ています。どうすればいいですか？&quot;}&#x27;</pre></div>
+  -d &#x27;{&quot;session_id&quot;: &quot;demo-100&quot;, &quot;message&quot;: &quot;社内VPNに接続できないエラーが出ています。どうすればいいですか？&quot;}&#x27; -w &quot;\n&quot;</pre></div>
 </section>
 <section class="block">
 <h2><span class="num">8</span>チャットUIをブラウザで開く<span class="badge local">ローカルPCで実行</span></h2>

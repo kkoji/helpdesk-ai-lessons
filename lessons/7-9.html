@@ -195,7 +195,7 @@ aws apigatewayv2 update-api --api-id ${API_ID} \
 </section>
 <section class="block">
 <h2><span class="num">6</span>エンドポイントURLを取得し、curlで呼び出す</h2>
-<p class="desc">エンドポイントURLを取得し、curlでPOSTします。AWSの認証なしで、URLだけで呼び出せることを確認します。</p>
+<p class="desc">エンドポイントURLを取得し、curlでPOSTします。AWSの認証なしで、URLだけで呼び出せることを確認します。末尾の <code>-w &quot;\n&quot;</code> は、応答の最後に改行を入れて、次のプロンプトが結果にくっつかないようにするためのものです。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>export API_ENDPOINT=$(aws apigatewayv2 get-api --api-id ${API_ID} \
   --query ApiEndpoint --output text)
@@ -203,7 +203,7 @@ echo ${API_ENDPOINT}/chat
 
 curl -X POST ${API_ENDPOINT}/chat \
   -H &#x27;Content-Type: application/json&#x27; \
-  -d &#x27;{&quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27;</pre></div>
+  -d &#x27;{&quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27; -w &quot;\n&quot;</pre></div>
 </section>
 <div class="foot">「ゼロから作る社内ヘルプデスクAI」レクチャー補足資料 ｜ <a href="../index.html">補足資料の一覧へ</a></div>
 </div>

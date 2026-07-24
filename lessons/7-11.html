@@ -274,12 +274,12 @@ aws lambda wait function-updated --function-name helpdesk-lab09</pre></div>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>curl -X POST ${API_ENDPOINT}/chat \
   -H &#x27;Content-Type: application/json&#x27; \
-  -d &#x27;{&quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27;</pre></div>
+  -d &#x27;{&quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27; -w &quot;\n&quot;</pre></div>
 <p class="desc">② <code>session_id</code> を付けて正しく呼び出します（回答が返ります）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>curl -X POST ${API_ENDPOINT}/chat \
   -H &#x27;Content-Type: application/json&#x27; \
-  -d &#x27;{&quot;session_id&quot;: &quot;demo-001&quot;, &quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27;</pre></div>
+  -d &#x27;{&quot;session_id&quot;: &quot;demo-001&quot;, &quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27; -w &quot;\n&quot;</pre></div>
 <p class="desc">③ DynamoDBの中身を確認します（会話履歴と <code>ttl</code> が入っています）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>aws dynamodb get-item \
