@@ -3,37 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>コスト管理とクリーンアップ ｜ 実行コマンド一覧</title>
+<title>コスト管理とクリーンアップ ｜ ゼロから作る社内ヘルプデスクAI</title>
 <style>
 :root{--bg:#fcfdff;--surface:#f2f6fc;--border:#dde6f2;--text:#22303e;--muted:#5b6b7c;
 --accent:#1f6feb;--accent-soft:#e3ebf6;--warn:#e6a817;--warn-soft:#fff4cc;--warn-ink:#7a5900;
---good:#3aa76d;--good-soft:#e6f7ea;--code-bg:#0d1b2a;--code-text:#dce8f5;--code-border:#1c3350;}
+--good:#3aa76d;--good-soft:#e6f7ea;--danger:#e05b5b;--danger-soft:#ffe9e9;--danger-ink:#8a2a2a;
+--code-bg:#0d1b2a;--code-text:#dce8f5;--code-border:#1c3350;}
 @media (prefers-color-scheme: dark){:root{--bg:#0b1420;--surface:#101e2f;--border:#24384f;
 --text:#e6edf5;--muted:#a9bbcd;--accent:#5b9dff;--accent-soft:#16283f;--warn:#e8b64a;
 --warn-soft:#2c2408;--warn-ink:#f3d38a;--good:#5bc98c;--good-soft:#102a1c;
+--danger:#f08a8a;--danger-soft:#2c1010;--danger-ink:#f3b0b0;
 --code-bg:#060d16;--code-text:#cfe1f5;--code-border:#1c3350;}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);
-font-family:"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.8;}
-.page{max-width:860px;margin:0 auto;padding:48px 20px 100px;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+font-family:"Hiragino Sans","Noto Sans JP",sans-serif;line-height:1.85;}
+.page{max-width:820px;margin:0 auto;padding:48px 20px 110px;}
 .eyebrow{color:var(--accent);font-size:13px;font-weight:700;letter-spacing:.06em;}
-h1{font-size:24px;margin:6px 0 8px;line-height:1.5;}
-.subtitle{color:var(--muted);margin:0 0 20px;font-size:14.5px;}
-.howto{background:var(--surface);border:1px solid var(--border);border-radius:10px;
-padding:14px 18px;font-size:14px;margin:0 0 28px;}
-.howto b{color:var(--accent)}
+h1{font-size:26px;margin:6px 0 10px;line-height:1.45;}
+.lead{color:var(--muted);font-size:15px;margin:0 0 10px;}
+h2{font-size:19px;margin:44px 0 12px;padding-left:12px;border-left:4px solid var(--accent);line-height:1.5;}
+h3{font-size:15.5px;margin:26px 0 8px;color:var(--text);}
+p{font-size:14.5px;margin:10px 0;}
+a{color:var(--accent);}
+ul{padding-left:22px;}li{margin:7px 0;font-size:14.5px;}
+.toc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 20px;margin:22px 0 8px;}
+.toc h4{margin:0 0 8px;font-size:13px;color:var(--muted);letter-spacing:.04em;}
+.toc ol{margin:0;padding-left:20px;}
+.toc li{margin:4px 0;font-size:14px;}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px;
+border-radius:10px;border:1px solid var(--border);}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:top;}
+th{background:var(--surface);color:var(--text);font-weight:700;font-size:13px;}
+tr:last-child td{border-bottom:none;}
+td code,th code{background:var(--accent-soft);border:none;border-radius:4px;padding:1px 6px;font-size:.92em;}
+.amt{color:var(--good);font-weight:700;white-space:nowrap;}
+.tablewrap{overflow-x:auto;}
 .note{background:var(--warn-soft);border-left:5px solid var(--warn);color:inherit;
-border-radius:8px;padding:10px 16px;font-size:13.5px;margin:14px 0;}
-.note b{color:var(--warn-ink)}
-.block{margin:34px 0;}
-.block h2{font-size:17px;margin:0 0 4px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.num{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;
-border-radius:50%;background:var(--accent);color:#fff;font-size:14px;flex-shrink:0;}
-.badge{font-size:11.5px;font-weight:700;border-radius:99px;padding:2px 10px;}
-.badge.skip{background:var(--good-soft);color:var(--good);}
-.badge.always{background:var(--accent-soft);color:var(--accent);}
-.badge.local{background:var(--warn-soft);color:var(--warn-ink);}
-.desc{color:var(--muted);font-size:14px;margin:4px 0 10px 38px;}
-.codewrap{position:relative;margin-left:38px;}
+border-radius:8px;padding:12px 16px;font-size:13.5px;margin:16px 0;}
+.note b{color:var(--warn-ink);}
+.tip{background:var(--good-soft);border-left:5px solid var(--good);border-radius:8px;padding:12px 16px;font-size:13.5px;margin:16px 0;}
+.tip b{color:var(--good);}
+.danger{background:var(--danger-soft);border-left:5px solid var(--danger);border-radius:8px;padding:12px 16px;font-size:13.5px;margin:16px 0;}
+.danger b{color:var(--danger-ink);}
+code{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-size:.9em;}
+.note code,.tip code,.danger code,p code,li code{background:var(--accent-soft);border:none;}
+.codewrap{position:relative;margin:14px 0;}
 pre{background:var(--code-bg);color:var(--code-text);border:1px solid var(--code-border);
 border-radius:10px;padding:16px 18px;overflow-x:auto;font-size:13px;line-height:1.7;margin:0;
 font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;}
@@ -43,25 +57,73 @@ background:rgba(255,255,255,.08);color:var(--code-text);border-radius:8px;
 padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit;}
 .copy:hover{background:rgba(255,255,255,.18);}
 .copy.done{background:var(--good);border-color:var(--good);color:#fff;}
-code{background:var(--surface);border:1px solid var(--border);border-radius:4px;
-padding:1px 5px;font-size:.9em;}
-.desc code,.howto code,.note code{background:var(--accent-soft);border:none;}
-.foot{margin-top:48px;color:var(--muted);font-size:13px;border-top:1px solid var(--border);padding-top:16px;}
-@media (max-width:600px){.desc,.codewrap{margin-left:0}}
+.foot{margin-top:56px;color:var(--muted);font-size:13px;border-top:1px solid var(--border);padding-top:16px;}
 </style>
 </head>
 <body>
 <div class="page">
 <div class="eyebrow">セクション7 AWSへの展開：実運用化</div>
-<h1>コスト管理とクリーンアップ ｜ 実行コマンド一覧</h1>
-<p class="subtitle">このセクションで作成したAWSリソースの削除コマンドです。AWS CloudShellで実行します。</p>
-<div class="howto">使い方：各手順の右上にある<b>「コピー」ボタン</b>を押して、CloudShellに貼り付けて実行します。複数行を貼り付けると「複数行のテキストの安全な貼り付け」という確認画面が出るので、内容を確認して「貼り付け」を押してください。</div>
-<div class="note"><b>環境ごとの違い</b><br>
-・<b>UdemyのAWSラボ環境の方</b>：ラボ環境はセッション終了時にリセットされるため、基本的に手動での削除は不要です。<br>
-・<b>ご自身のAWSアカウントの方</b>：リソースを残すと課金が続くため、確認が済んだら<b>必ず削除を実施</b>してください。</div>
-<section class="block">
-<h2><span class="num">1</span>リソースを個別に削除する場合</h2>
-<p class="desc">ラボで手作りしたリソースをまとめて削除します。<strong>⑦のバケット削除は中身ごと消え、取り消せません。</strong></p>
+<h1>コスト管理とクリーンアップ</h1>
+<p class="lead">このセクションで作成したAWSリソースの<strong>費用の目安</strong>と、<strong>後片付け（リソース削除）</strong>の手順をまとめた参照用ページです。</p>
+
+<div class="note">
+学習が終わったリソースを放置すると、少額とはいえ課金が続きます。動作確認が済んだら、このページの手順でクリーンアップしてください。もう一度作りたくなったら、<code>deploy.sh</code> を実行すればいつでも数分で再構築できます。
+</div>
+
+<div class="toc">
+<h4>このページの内容</h4>
+<ol>
+<li><a href="#cost">費用の目安</a></li>
+<li><a href="#cleanup">クリーンアップ手順（A：個別削除 ／ B：destroy.sh）</a></li>
+<li><a href="#verify">削除できたかの確認</a></li>
+<li><a href="#openai">OpenAI 側の後片付け</a></li>
+<li><a href="#habit">日頃のコスト管理のヒント</a></li>
+<li><a href="#rebuild">再構築したくなったら</a></li>
+</ol>
+</div>
+
+<h2 id="cost">費用の目安</h2>
+
+<div class="note">
+<b>⚠️ 料金は変わることがあります。</b> 以下は執筆時点の目安・考え方です。正確な単価は AWS・OpenAI の公式料金ページで確認してください。
+</div>
+
+<h3>OpenAI API（このコースの主な費用）</h3>
+<div class="tablewrap">
+<table>
+<thead><tr><th>項目</th><th>使う場面</th><th>目安</th></tr></thead>
+<tbody>
+<tr><td><code>gpt-4o-mini</code>（チャット）</td><td>質問への回答・エージェントの判断</td><td><span class="amt">1質問あたり1円未満</span></td></tr>
+<tr><td><code>text-embedding-3-small</code></td><td>インデックス構築（1回）＋質問のベクトル化</td><td><span class="amt">構築1回で1円未満</span></td></tr>
+</tbody>
+</table>
+</div>
+<p>コースの全ハンズオン・全ラボを実行しても、<strong>合計で数ドル以内</strong>に収まる見込みです。</p>
+
+<h3>AWS（サーバーレスなので「使った分だけ」）</h3>
+<div class="tablewrap">
+<table>
+<thead><tr><th>サービス</th><th>課金の考え方</th><th>このコースの規模での目安</th></tr></thead>
+<tbody>
+<tr><td>Lambda</td><td>実行回数 × 実行時間</td><td>数十回の呼び出しならほぼ0円</td></tr>
+<tr><td>API Gateway</td><td>リクエスト数</td><td>同上</td></tr>
+<tr><td>S3</td><td>保存容量＋リクエスト</td><td>数MBの保存なのでごく少額</td></tr>
+<tr><td>DynamoDB</td><td>オンデマンド（読み書き回数）</td><td>同上</td></tr>
+<tr><td>CloudWatch Logs</td><td>ログの保存容量</td><td>少額（ただし削除忘れに注意）</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>放置して課金が続きやすいのは</strong>：S3の保存分・CloudWatch Logsのログ・（もし作っていれば）他リージョンの試験リソースです。だからこそ、以下のクリーンアップが大事です。</p>
+
+<div class="tip">
+<b>💡 Udemy AWSラボ環境の方：</b> ラボ環境はセッション終了時にリセットされるため、基本的に手動削除は不要です。ただしラボの利用時間を節約する意味でも、途中でやめる際は下記の削除を実行しておくと安心です。<strong>ご自身のAWSアカウントの方は、必ず削除を実施してください。</strong>
+</div>
+
+<h2 id="cleanup">クリーンアップ手順</h2>
+<p>このコースでは2通りの作り方をしたので、削除も2通りに分かれます。どちらで作ったか分からない場合は、<strong>A・Bの両方を実行しても安全です</strong>（存在しないリソースの削除はスキップされます）。各コードブロックは右上の<strong>「コピー」ボタン</strong>でコピーできます。</p>
+
+<h3>A. 各ラボで手作りしたリソースの削除</h3>
+<p>このセクションのラボで手作りしたリソースは、以下のコマンドでまとめて削除できます。<strong>CloudShellでの実行を推奨</strong>します（bash構文を含むため、WindowsのPowerShellでは動きません）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre><span class="c"># 変数（ラボと同じもの）</span>
 export AWS_REGION=us-east-1
@@ -71,7 +133,7 @@ export S3_BUCKET=helpdesk-ai-${ACCOUNT_ID}-${AWS_REGION}
 <span class="c"># ① API Gateway（チャットボット公開のラボで作成）</span>
 API_ID=$(aws apigatewayv2 get-apis \
   --query &quot;Items[?Name==&#x27;helpdesk-lab09-api&#x27;].ApiId | [0]&quot; --output text)
-[ &quot;$API_ID&quot; != &quot;None&quot; ] &amp;&amp; aws apigatewayv2 delete-api --api-id ${API_ID}
+[ -n &quot;$API_ID&quot; ] &amp;&amp; [ &quot;$API_ID&quot; != &quot;None&quot; ] &amp;&amp; aws apigatewayv2 delete-api --api-id ${API_ID}
 
 <span class="c"># ② Lambda関数（各ラボで作成した3つ）</span>
 for FN in helpdesk-lab07 helpdesk-lab08b helpdesk-lab09; do
@@ -101,33 +163,55 @@ aws iam delete-role --role-name helpdesk-ai-lambda-role 2&gt;/dev/null
 
 <span class="c"># ⑦ S3バケット（中身ごと削除。取り消せないので注意！）</span>
 aws s3 rb s3://${S3_BUCKET} --force</pre></div>
-</section>
-<section class="block">
-<h2><span class="num">2</span>（参考）destroy.shで一括削除する場合<span class="badge always">参考</span></h2>
-<p class="desc"><code>deploy.sh</code> で一括構築した環境は、付属の <code>destroy.sh</code> で一括削除できます。どちらで作ったか不明な場合は両方実行しても安全です。</p>
+
+<div class="danger">
+<b>⚠️ ⑦のバケット削除は、中身（文書・インデックス・Layer zip）ごと消え、取り消せません。</b> もう一度作る場合は、インデックス構築のラボの手順（または <code>deploy.sh</code>）で再構築できます。
+</div>
+
+<h3>B. deploy.sh で一括構築した場合の削除（destroy.sh）</h3>
+<p><code>deploy.sh</code> で構築した環境（関数名 <code>helpdesk-ai-handler</code>、API名 <code>helpdesk-ai-api</code> などの正式名）は、リポジトリ付属の削除スクリプトで一括削除できます。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>cd helpdesk-ai/aws
-./destroy.sh          # 削除対象を表示し、確認プロンプト（yes入力）の後に削除
-FORCE=1 ./destroy.sh  # 確認なしで即削除</pre></div>
-</section>
-<section class="block">
-<h2><span class="num">3</span>削除できたか確認</h2>
-<p class="desc">それぞれ「空」または「見つからない」と表示されればクリーンアップ完了です。</p>
+./destroy.sh          <span class="c"># 削除対象を表示し、確認プロンプト（yes入力）の後に削除</span>
+FORCE=1 ./destroy.sh  <span class="c"># 確認なしで即削除</span></pre></div>
+<p><code>destroy.sh</code> は作成と逆順（API Gateway → Lambda → ログ → Layer → IAM → DynamoDB → S3）で確実に削除します。</p>
+
+<div class="tip">
+<b>💡 AとBの両方を実行しても安全です</b>（存在しないリソースの削除はスキップされます）。「どちらで作ったか覚えていない」場合は、両方流してください。
+</div>
+
+<h2 id="verify">削除できたかの確認</h2>
+<p>それぞれ「空」または「見つからない」と表示されれば、クリーンアップ完了です。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
-<pre>aws lambda list-functions --query &quot;Functions[?starts_with(FunctionName, &#x27;helpdesk&#x27;)].FunctionName&quot;
+<pre><span class="c"># それぞれ「空」または「見つからない」ならクリーンアップ完了</span>
+aws lambda list-functions --query &quot;Functions[?starts_with(FunctionName, &#x27;helpdesk&#x27;)].FunctionName&quot;
 aws apigatewayv2 get-apis --query &quot;Items[?starts_with(Name, &#x27;helpdesk&#x27;)].Name&quot;
 aws dynamodb list-tables --query &quot;TableNames[?starts_with(@, &#x27;helpdesk&#x27;)]&quot;
 aws s3 ls | grep helpdesk || echo &quot;S3: なし&quot;
 aws iam get-role --role-name helpdesk-ai-lambda-role 2&gt;&amp;1 | head -1</pre></div>
-</section>
-<section class="block">
-<h2><span class="num">4</span>（参考）deploy.shで再構築する場合<span class="badge always">参考</span></h2>
 
+<h2 id="openai">OpenAI 側の後片付け</h2>
+<ul>
+<li><strong>APIキーの無効化</strong>：学習専用に発行したキーは、使い終わったら <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com のAPI keys画面</a> で削除（Revoke）しておくと安心です。</li>
+<li><strong>残高の確認</strong>：Billing画面でクレジット残高と使用量を確認できます。自動チャージ（オートリチャージ）がオフになっていることも再確認しましょう。</li>
+</ul>
+
+<h2 id="habit">日頃のコスト管理のヒント</h2>
+<ul>
+<li><strong>AWS Budgets</strong>：「月◯ドルを超えたらメール通知」という予算アラートを無料で設定できます。個人アカウントで学習を続けるなら、まず最初に設定しておくのがおすすめです。</li>
+<li><strong>請求ダッシュボード</strong>：AWSコンソールの「Billing and Cost Management」で、サービス別の利用額をいつでも確認できます。</li>
+<li><strong>OpenAI Usage</strong>：OpenAIプラットフォームの Usage 画面で、日別・モデル別の利用量を確認できます。</li>
+</ul>
+
+<h2 id="rebuild">再構築したくなったら</h2>
+<p>すべて削除しても、環境は数分で再現できます。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>cd helpdesk-ai/aws
 <span class="c"># APIキーの入力待ちになったら、ご自身のキーを貼り付けて Enter（画面には表示されない）</span>
-read -s -p &quot;OpenAI APIキーを貼り付けて Enter: &quot; OPENAI_API_KEY; echo; export OPENAI_API_KEY; ./deploy.sh    # S3→インデックス→DynamoDB→IAM→Layer→Lambda→API Gateway を一括構築</pre></div>
-</section>
+<span class="c"># deploy.sh が S3→インデックス→DynamoDB→IAM→Layer→Lambda→API Gateway を一括構築</span>
+read -s -p &quot;OpenAI APIキーを貼り付けて Enter: &quot; OPENAI_API_KEY; echo; export OPENAI_API_KEY; ./deploy.sh</pre></div>
+<p>「作っては壊し、また作れる」——これがコード化されたインフラの強みです。安心して片付けてください。</p>
+
 <div class="foot">「ゼロから作る社内ヘルプデスクAI」レクチャー補足資料 ｜ <a href="../index.html">補足資料の一覧へ</a></div>
 </div>
 <script>
