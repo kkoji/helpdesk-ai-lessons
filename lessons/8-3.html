@@ -143,11 +143,13 @@ border:2px solid var(--accent);border-radius:5px;background:var(--bg);}
 
 <div class="kw">
 <h3>Advanced RAG（検索を極める）</h3>
+<p>コースで扱った3つ（Re-ranking／ハイブリッド検索／クエリ書き換え）は、この一部です。RAGの「どの段階を良くするか」で整理すると全体像がつかめます。</p>
 <ul>
-<li><code>Re-ranking / リランキング</code>（二段選抜）</li>
-<li><code>ハイブリッド検索 / hybrid search</code>・<code>BM25</code>（キーワード検索の代表的手法）</li>
-<li><code>クエリ書き換え / query rewriting</code>・<code>HyDE</code></li>
-<li><code>チャンク戦略 / chunking strategy</code>・<code>親子チャンク / parent document retriever</code></li>
+<li><strong>検索の前（質問を整える）</strong>：<code>クエリ書き換え / query rewriting</code>・<code>Multi-Query</code>（複数の言い換えで検索して統合）・<code>クエリ分解 / decomposition</code>（複合質問を小問に分ける）・<code>HyDE</code>（仮の回答文を作って検索）・<code>step-back prompting</code></li>
+<li><strong>検索のしかた</strong>：<code>ハイブリッド検索 / hybrid search</code>・<code>BM25</code>（キーワード検索の代表的手法）・<code>GraphRAG</code>（情報が点在する質問に強い）</li>
+<li><strong>検索の後（絞り込む）</strong>：<code>Re-ranking / リランキング</code>（多めに取って関連順に並べ直す）・<code>コンテキスト圧縮 / contextual compression</code>・<code>MMR</code>（似た結果ばかりにしない）</li>
+<li><strong>インデックスの作り方</strong>：<code>チャンク戦略 / chunking strategy</code>・<code>セマンティック・チャンキング</code>・<code>親子チャンク / parent document retriever</code>（検索は小さく・LLMへは大きく渡す）</li>
+<li><strong>自己改善する検索</strong>：<code>Self-RAG</code>・<code>CRAG</code>（取得結果が不十分なら検索し直す）・<code>Agentic RAG</code>（エージェントが検索の要否や検索語を判断しながら回す＝本コースで作った構成の発展形）</li>
 </ul>
 </div>
 
