@@ -76,14 +76,14 @@ border:2px solid var(--accent);border-radius:5px;background:var(--bg);}
 </div>
 
 <h2 id="compare">① 技術選定の比較早見表</h2>
-<p>コースで採用した構成（<span class="star">★</span>）と、状況が変わったときの代替候補です。「正解」ではなく「出発点」として使ってください。</p>
+<p>コースで採用した構成（<span class="star">★</span>）と、状況が変わったときの代替候補です。どれか一つが正解というわけではないので、要件に合わせて選び直すときの土台としてご活用ください。</p>
 
 <h3>ベクトルDB</h3>
 <div class="tablewrap">
 <table>
 <thead><tr><th>選択肢</th><th>タイプ</th><th>向いている状況</th></tr></thead>
 <tbody>
-<tr class="pick"><td><span class="star">★</span> FAISS</td><td>ライブラリ型</td><td>学習〜中規模／インデックスをファイルで持ち運ぶ構成（S3＋Lambda等）</td></tr>
+<tr class="pick"><td><span class="star">★</span> FAISS</td><td>ライブラリ型</td><td>学習〜中規模（数万〜数百万ベクトル程度）／インデックスをファイルで持ち運ぶ構成（S3＋Lambda等）</td></tr>
 <tr><td>Chroma</td><td>ライブラリ型</td><td>手軽な開発・プロトタイプ／メタデータでの絞り込みが欲しい</td></tr>
 <tr><td>Pinecone 等（クラウド型）</td><td>マネージド</td><td>大規模データ／常時更新／運用を任せたい</td></tr>
 <tr><td>pgvector</td><td>RDB拡張</td><td>すでにPostgreSQLを運用している組織</td></tr>
@@ -108,7 +108,7 @@ border:2px solid var(--accent);border-radius:5px;background:var(--bg);}
 <table>
 <thead><tr><th>選択肢</th><th>向いている状況</th></tr></thead>
 <tbody>
-<tr class="pick"><td><span class="star">★</span> Lambda（サーバーレス）</td><td>散発的なアクセス／運用の手間を最小に</td></tr>
+<tr class="pick"><td><span class="star">★</span> Lambda（サーバーレス）</td><td>散発的なアクセス・短時間で終わる処理／運用の手間を最小に</td></tr>
 <tr><td>コンテナ（ECS／Fargate等）</td><td>常時高トラフィック／長時間処理／依存が巨大</td></tr>
 <tr><td>常時起動サーバー（EC2等）</td><td>特殊な要件（GPU等）／既存運用に乗せる</td></tr>
 </tbody>
@@ -134,7 +134,7 @@ border:2px solid var(--accent);border-radius:5px;background:var(--bg);}
 <li><strong>最小権限</strong>：IAMポリシーに <code>*</code> が無い／サービスごとに必要な操作だけ／ルートユーザーを日常使いしない</li>
 <li><strong>公開範囲</strong>：CORSを自社ドメインに限定／APIに認証（簡易トークン／IAM認証／Cognito等）</li>
 <li><strong>LLMリスク</strong>：「読ませる＝送る」の確認（機密区分・提供元のデータポリシー）／プロンプトインジェクションへの備え（防御を過信しない・ツール権限を絞る・出力を無条件に信用しない）</li>
-<li><strong>コスト</strong>：AWS Budgetsのアラート設定／OpenAIの自動チャージ設定確認／不要リソースの削除（<a href="7-13.html">コスト管理とクリーンアップの回</a>を参照）</li>
+<li><strong>コスト</strong>：AWS Budgetsのアラート設定／OpenAIの利用上限・請求設定を確認／不要リソースの削除（<a href="7-13.html">コスト管理とクリーンアップの回</a>を参照）</li>
 <li><strong>運用</strong>：テスト質問セットで回帰確認する習慣／CloudWatch Logsでエラーを確認できる</li>
 </ul>
 
@@ -146,10 +146,10 @@ border:2px solid var(--accent);border-radius:5px;background:var(--bg);}
 <p>コースで扱った3つ（Re-ranking／ハイブリッド検索／クエリ書き換え）は、この一部です。RAGの「どの段階を良くするか」で整理すると全体像がつかめます。</p>
 <ul>
 <li><strong>検索の前（質問を整える）</strong>：<code>クエリ書き換え / query rewriting</code>・<code>Multi-Query</code>（複数の言い換えで検索して統合）・<code>クエリ分解 / decomposition</code>（複合質問を小問に分ける）・<code>HyDE</code>（仮の回答文を作って検索）・<code>step-back prompting</code></li>
-<li><strong>検索のしかた</strong>：<code>ハイブリッド検索 / hybrid search</code>・<code>BM25</code>（キーワード検索の代表的手法）・<code>GraphRAG</code>（情報が点在する質問に強い）</li>
+<li><strong>検索のしかた</strong>：<code>ハイブリッド検索 / hybrid search</code>・<code>BM25</code>（キーワード検索の代表的手法）・<code>GraphRAG</code>（人物・組織・出来事などの関係性をたどる質問に強い）</li>
 <li><strong>検索の後（絞り込む）</strong>：<code>Re-ranking / リランキング</code>（多めに取って関連順に並べ直す）・<code>コンテキスト圧縮 / contextual compression</code>・<code>MMR</code>（似た結果ばかりにしない）</li>
 <li><strong>インデックスの作り方</strong>：<code>チャンク戦略 / chunking strategy</code>・<code>セマンティック・チャンキング</code>・<code>親子チャンク / parent document retriever</code>（検索は小さく・LLMへは大きく渡す）</li>
-<li><strong>自己改善する検索</strong>：<code>Self-RAG</code>・<code>CRAG</code>（取得結果が不十分なら検索し直す）・<code>Agentic RAG</code>（エージェントが検索の要否や検索語を判断しながら回す＝本コースで作った構成の発展形）</li>
+<li><strong>自己改善する検索</strong>：<code>Self-RAG</code>（検索や回答を自己評価しながら改善）・<code>CRAG</code>（検索結果が悪ければ検索し直す）・<code>Agentic RAG</code>（エージェントが検索の要否や検索語を判断しながら回す＝本コースで作った構成の発展形）</li>
 </ul>
 </div>
 
@@ -186,7 +186,7 @@ border:2px solid var(--accent);border-radius:5px;background:var(--bg);}
 <table>
 <thead><tr><th>調べたいこと</th><th>行き先</th></tr></thead>
 <tbody>
-<tr><td>LangChain／LangGraph のAPI・使い方</td><td>LangChain公式ドキュメント（<code>python.langchain.com</code>）・LangGraphドキュメント</td></tr>
+<tr><td>LangGraph／LangChain のAPI・使い方</td><td>LangGraphドキュメント・LangChain公式ドキュメント（<code>python.langchain.com</code>）</td></tr>
 <tr><td>OpenAI APIの仕様・モデル・料金</td><td>OpenAIプラットフォームのドキュメントと料金ページ（<code>platform.openai.com</code>）</td></tr>
 <tr><td>Lambda／API Gateway／S3／DynamoDB</td><td>AWS公式ドキュメント。まず「開発者ガイド」の入門章から</td></tr>
 <tr><td>FAISS</td><td>FAISSのGitHubリポジトリのwiki</td></tr>
