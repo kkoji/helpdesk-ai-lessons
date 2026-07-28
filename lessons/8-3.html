@@ -142,14 +142,14 @@ border:2px solid var(--accent);border-radius:5px;background:var(--bg);}
 <p>検索エンジンや公式ドキュメントで調べるときに使うキーワードです。</p>
 
 <div class="kw">
-<h3>Advanced RAG（検索を極める）</h3>
-<p>コースで扱った3つ（Re-ranking／ハイブリッド検索／クエリ書き換え）は、この一部です。RAGの「どの段階を良くするか」で整理すると全体像がつかめます。</p>
+<h3>Advanced RAG（文書検索を極める）</h3>
+<p>質問に合う社内文書（チャンク）を探し出す精度を、さらに上げる工夫です。コースで扱った3つ（Re-ranking／ハイブリッド検索／クエリ書き換え）もこの一部で、文書検索の「どの段階を良くするか」で整理すると全体像がつかめます。</p>
 <ul>
-<li><strong>検索の前（質問を整える）</strong>：<code>クエリ書き換え / query rewriting</code>・<code>Multi-Query</code>（複数の言い換えで検索して統合）・<code>クエリ分解 / decomposition</code>（複合質問を小問に分ける）・<code>HyDE</code>（仮の回答文を作って検索）・<code>step-back prompting</code></li>
-<li><strong>検索のしかた</strong>：<code>ハイブリッド検索 / hybrid search</code>・<code>BM25</code>（キーワード検索の代表的手法）・<code>GraphRAG</code>（人物・組織・出来事などの関係性をたどる質問に強い）</li>
-<li><strong>検索の後（絞り込む）</strong>：<code>Re-ranking / リランキング</code>（多めに取って関連順に並べ直す）・<code>コンテキスト圧縮 / contextual compression</code>・<code>MMR</code>（似た結果ばかりにしない）</li>
+<li><strong>文書を探す前（質問を整える）</strong>：<code>クエリ書き換え / query rewriting</code>・<code>Multi-Query</code>（複数の言い換えで検索して統合）・<code>クエリ分解 / decomposition</code>（複合質問を小問に分ける）・<code>HyDE</code>（仮の回答文を作って検索）・<code>step-back prompting</code></li>
+<li><strong>文書の探し方</strong>：<code>ハイブリッド検索 / hybrid search</code>・<code>BM25</code>（キーワード検索の代表的手法）・<code>GraphRAG</code>（人物・組織・出来事などの関係性をたどる質問に強い）</li>
+<li><strong>文書を取得した後（絞り込む）</strong>：<code>Re-ranking / リランキング</code>（多めに取って関連順に並べ直す）・<code>コンテキスト圧縮 / contextual compression</code>・<code>MMR</code>（似た結果ばかりにしない）</li>
 <li><strong>インデックスの作り方</strong>：<code>チャンク戦略 / chunking strategy</code>・<code>セマンティック・チャンキング</code>・<code>親子チャンク / parent document retriever</code>（検索は小さく・LLMへは大きく渡す）</li>
-<li><strong>自己改善する検索</strong>：<code>Self-RAG</code>（検索や回答を自己評価しながら改善）・<code>CRAG</code>（検索結果が悪ければ検索し直す）・<code>Agentic RAG</code>（エージェントが検索の要否や検索語を判断しながら回す＝本コースで作った構成の発展形）</li>
+<li><strong>自己改善する文書検索</strong>：<code>Self-RAG</code>（検索や回答を自己評価しながら改善）・<code>CRAG</code>（検索結果が悪ければ検索し直す）・<code>Agentic RAG</code>（エージェントが検索の要否や検索語を判断しながら回す＝本コースで作った構成の発展形）</li>
 </ul>
 </div>
 
