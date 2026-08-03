@@ -134,7 +134,7 @@ border:2px solid var(--accent);border-radius:5px;background:var(--bg);}
 <li><strong>最小権限</strong>：IAMポリシーに <code>*</code> が無い／サービスごとに必要な操作だけ／ルートユーザーを日常使いしない</li>
 <li><strong>公開範囲</strong>：CORSを自社ドメインに限定／APIに認証（簡易トークン／IAM認証／Cognito等）</li>
 <li><strong>LLMリスク</strong>：「読ませる＝送る」の確認（機密区分・提供元のデータポリシー）／プロンプトインジェクションへの備え（防御を過信しない・ツール権限を絞る・出力を無条件に信用しない）</li>
-<li><strong>コスト</strong>：AWS Budgetsのアラート設定／OpenAIの利用上限・請求設定を確認／不要リソースの削除（<a href="7-13.html">コスト管理とクリーンアップの回</a>を参照）</li>
+<li><strong>コスト</strong>：AWS Budgetsのアラート設定／OpenAIの利用上限・請求設定を確認／不要リソースの削除（<a href="51.html">コスト管理とクリーンアップの回</a>を参照）</li>
 <li><strong>運用</strong>：テスト質問セットで回帰確認する習慣／CloudWatch Logsでエラーを確認できる</li>
 </ul>
 
