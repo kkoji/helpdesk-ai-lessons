@@ -166,7 +166,7 @@ aws lambda create-function \
   --cli-binary-format raw-in-base64-out \
   --payload &#x27;{&quot;message&quot;: &quot;有給休暇は何日もらえますか？&quot;}&#x27; \
   response.json
-cat response.json</pre></div>
+jq -r &#x27;.reply&#x27; response.json</pre></div>
 </section>
 <div class="foot">「ゼロから作る社内ヘルプデスクAI」レクチャー補足資料 ｜ <a href="../index.html">補足資料の一覧へ</a></div>
 </div>
