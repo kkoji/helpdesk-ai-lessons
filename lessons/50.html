@@ -226,7 +226,7 @@ export API_ENDPOINT=$(aws apigatewayv2 get-api --api-id ${API_ID} \
 echo ${API_ENDPOINT}/chat</pre></div>
 </section>
 <section class="block">
-<h2><span class="num">5</span>マルチターン——同じsession_idで2連投して、会話がつながるか確認</h2>
+<h2><span class="num">5</span>マルチターン：同じsession_idで2連投して、会話がつながるか確認</h2>
 <p class="desc">マルチターンの確認。同じ <code>session_id</code> で2回質問し、2問目の「それって？」が文脈を踏まえて解釈されることを確認します。<strong>①と②は1つずつコピーして実行し、そのつど結果を確認してください</strong>（まとめて実行すると出力が続いて読みにくくなります）。</p>
 <p class="desc">① 1問目：有給休暇の日数をたずねます。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
@@ -238,7 +238,7 @@ echo ${API_ENDPOINT}/chat</pre></div>
   -d &#x27;{&quot;session_id&quot;: &quot;demo-100&quot;, &quot;message&quot;: &quot;それって申請は必要ですか？&quot;}&#x27; -w &quot;\n&quot;</pre></div>
 </section>
 <section class="block">
-<h2><span class="num">6</span>セッションの分離——別のsession_idで、いきなり「それって？」と聞くと…</h2>
+<h2><span class="num">6</span>セッションの分離：別のsession_idで、いきなり「それって？」と聞くと…</h2>
 <p class="desc">セッション分離の確認。別の <code>session_id</code> では文脈が引き継がれないことを確認します。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>curl -X POST ${API_ENDPOINT}/chat -H &#x27;Content-Type: application/json&#x27; \
