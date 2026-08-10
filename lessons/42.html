@@ -63,7 +63,10 @@ padding:1px 5px;font-size:.9em;}
 <h2><span class="num">1</span>このラボで使う変数をまとめて設定（OPENAI_API_KEY は自分のキーに書き換える）</h2>
 <p class="desc">このラボで使う値を環境変数にまとめて設定します。最後にAPIキーの入力待ちになるので、ご自身のキーを貼り付けて Enter を押してください（画面には表示されません）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
-<pre>export AWS_REGION=us-east-1
+<pre><span class="c"># AWS CLIの出力をページャー（less）に渡さず、そのまま表示する</span>
+export AWS_PAGER=&quot;&quot;
+
+export AWS_REGION=us-east-1
 export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 export S3_BUCKET=helpdesk-ai-${ACCOUNT_ID}-${AWS_REGION}
 export LAMBDA_ROLE_NAME=helpdesk-ai-lambda-role

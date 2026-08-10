@@ -68,6 +68,9 @@ cd ~
 git clone https://github.com/kkoji/helpdesk-ai.git
 cd ~/helpdesk-ai
 
+<span class="c"># AWS CLIの出力をページャー（less）に渡さず、そのまま表示する</span>
+export AWS_PAGER=&quot;&quot;
+
 export AWS_REGION=us-east-1
 export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 export S3_BUCKET=helpdesk-ai-${ACCOUNT_ID}-${AWS_REGION}

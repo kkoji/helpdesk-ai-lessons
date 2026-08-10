@@ -129,7 +129,10 @@ padding:5px 12px;font-size:12px;cursor:pointer;font-family:inherit;}
 <h3>A. コマンドで個別に構築したリソースの削除</h3>
 <p>このセクションの各レクチャーで、コマンドを一つずつ実行して構築したリソースは、以下のコマンドでまとめて削除できます（<code>deploy.sh</code> で一括構築した場合はBへ）。<strong>CloudShellでの実行を推奨</strong>します（bash構文を含むため、WindowsのPowerShellでは動きません）。</p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
-<pre><span class="c"># 変数（構築時と同じもの）</span>
+<pre><span class="c"># AWS CLIの出力をページャー（less）に渡さず、そのまま表示する</span>
+export AWS_PAGER=&quot;&quot;
+
+<span class="c"># 変数（構築時と同じもの）</span>
 export AWS_REGION=us-east-1
 export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 export S3_BUCKET=helpdesk-ai-${ACCOUNT_ID}-${AWS_REGION}
