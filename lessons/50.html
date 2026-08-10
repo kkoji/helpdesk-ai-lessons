@@ -261,12 +261,19 @@ echo ${API_ENDPOINT}/chat</pre></div>
 </section>
 <section class="block">
 <h2><span class="num">8</span>チャットUIをブラウザで開く<span class="badge local">ローカルPCで実行</span></h2>
-<p class="desc">チャットUIをブラウザで開きます。<strong>このブロックだけ、ご自身のPCのターミナルで実行</strong>してください。<code>index.html</code> をダブルクリック（file://）で開くとCORSで必ず失敗します。</p>
+<p class="desc">チャットUIをブラウザで開きます。<strong>このブロックだけ、ご自身のPCのターミナルで実行</strong>してください。<code>index.html</code> をダブルクリック（file://）で開くとCORSで必ず失敗します。お使いのOSのブロックを実行してください。</p>
+<p class="desc"><strong>Mac/Linux</strong></p>
 <div class="codewrap"><button class="copy" type="button">コピー</button>
 <pre>git clone https://github.com/kkoji/helpdesk-ai-ui.git
 cd helpdesk-ai-ui
 python3 -m http.server 8000
-<span class="c">#    Windows は python -m http.server 8000</span>
+<span class="c"># → ブラウザで http://localhost:8000/index.html を開く</span>
+<span class="c"># ※ index.html をダブルクリック（file://）で開くと、CORSにより必ず失敗します</span></pre></div>
+<p class="desc"><strong>Windows（PowerShell）</strong></p>
+<div class="codewrap"><button class="copy" type="button">コピー</button>
+<pre>git clone https://github.com/kkoji/helpdesk-ai-ui.git
+cd helpdesk-ai-ui
+python -m http.server 8000
 <span class="c"># → ブラウザで http://localhost:8000/index.html を開く</span>
 <span class="c"># ※ index.html をダブルクリック（file://）で開くと、CORSにより必ず失敗します</span></pre></div>
 <p class="desc"><strong>（CloudShellで実行）</strong>画面に貼り付けるエンドポイントURLを表示します。CloudShellのタブに戻ってこのブロックを実行し、出力された <code>https://….amazonaws.com/chat</code> をコピーしてください。</p>
